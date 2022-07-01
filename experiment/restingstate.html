@@ -1,0 +1,224 @@
+<!-- Load jsPsych-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--create title shown in tab; not the same as header on webpage-->
+    <title>RestingState</title>
+
+    <!--load the jsPsych library; set src to own path-->
+    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/jspsych.js"></script>
+
+    <!--Load all necessary plugins-->
+    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/randomID.js"></script>
+    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-fullscreen.js"></script>
+    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-html-slider-response.js"></script>
+    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/utils.js"></script>
+    <script src="jspsych/plugins/jspsych-call-function.js"></script>
+    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-survey-likert.js"></script>
+    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-sketchpad.js"></script>
+    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-canvas-button-response.js"></script>
+
+    <!-- Applying default style here -->
+    <link href="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/jspsych.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body></body>
+
+<script>
+    //create a timeline
+    var timeline = [];
+
+    // Get participant and session info
+    // var participant_id = jsPsych.randomization.randomID(15);
+    //  var start_time = jsPsych.getStartTime(); /* get start time of the experiment */
+
+    // var session_info = {
+    //   participant_id: subject_id,
+    //    time: start_time,
+    // };
+
+    // Enter fullscreen mode
+    var fullscreen = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: true,
+    };
+
+    timeline.push(fullscreen);
+
+    //create variables for experiment presentation
+    var welcome = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: "Welcome to the Experiment. Press any Key to Begin.",
+        //data: Object.assign({screen: 'session_info'}, session_info, systemInfo())
+    };
+    //add trial to timeline using .push()
+    timeline.push(welcome);
+
+    // Instructions
+    var instructions = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: "<p>In this study, you will be asked to participate in a series of cognitive tasks meant to assess different facets of your mental processes.</p><p>In the first phase of this study, you will be required to close your eyes for eight minutes without falling asleep.</p><p> Please try not to think of anything and relax as you are doing so.</p><p>Once you have read and understood the instructions, please close your eyes for the trial to begin.</p>",
+        choices: "NO_KEYS",
+        trial_duration: 6000
+    };
+    timeline.push(instructions);
+
+    //onset of trial
+    // var trial = {
+    //     type: jsPsychSketchpad,
+    //     canvas_shape: 'rectangle',
+    //     canvas_width: 30,
+    //     canvas_height: 30,
+    //     canvas_border_width: 0.1,
+    //     choices: "NO_KEYS",
+    //     trial_duration: 2000,
+    //     show_finished_button: false,
+    //     show_undo_button: false,
+    //     show_clear_button: false,
+    //     show_redo_button: false,
+    //     canvas_border_color: '#000000',
+    //     background_color: '#000000'
+    // };
+
+    // timeline.push(trial);
+
+    // create black circle as trigger
+    function trigger(canvas, color) {
+        var ctx = canvas.getContext("2d");
+        ctx.beginPath();
+        ctx.fillRect(30, 30, 30, 30);
+        //ctx.arc(20, 20, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+    }
+    // set trial to trigger onset of resting state trial
+    var onset = {
+        type: jsPsychCanvasButtonResponse,
+        stimulus: function (c) {
+            trigger(c, 'black');
+        },
+        canvas_size: [2000, 2000],
+        choices: [],
+        stimulus_duration: 500,
+        trial_duration: 2000
+    };
+
+    timeline.push(onset)
+
+    // set trial to trigger offset
+    var offset = {
+        type: jsPsychCanvasButtonResponse,
+        stimulus: function (c) {
+            trigger(c, 'black');
+        },
+        canvas_size: [2000, 2000],
+        choices: [],
+        stimulus_duration: 500,
+        trial_duration: 500
+    };
+
+    timeline.push(offset);
+
+    // Debriefing Questions - NYC-Q
+
+    var scale = ["<p>1</p><p>(Completely does not characterize my experience)</p>", "2", "3", "4", "5", "6", "7", "8", "<p>9</p><p>(Completely does characterize my experience)</p>"];
+
+    var NYCQ = {
+        type: jsPsychSurveyLikert,
+        questions: [
+            {prompt: "I thought about things I am currently worried about", labels: scale, required: true},
+            {prompt: "I thought about people I have just recently met", labels: scale, required: true},
+            {prompt: "I thought of people I have known for a long time (friends)", labels: scale, required: true},
+            {prompt: "I thought about members of my family", labels: scale, required: true},
+            {prompt: "I thought about an event that took place earlier today", labels: scale, required: true},
+            {prompt: "I thought about an interaction I may possibly have in the future", labels: scale, required: true},
+            {prompt: "I thought about an interaction with somebody that took place in the past", labels: scale, required: true},
+            {prompt: "I thought about something that happened at a place very close to me", labels: scale, required: true},
+            {prompt: "I thought about something that made me feel guilty", labels: scale, required: true},
+            {prompt: "I thought about an event that may take place later today", labels: scale, required: true},
+            {prompt: "I thought about something that happened in the recent past (last couple of days but not today)", labels: scale, required: true},
+            {prompt: "I thought about something that happened a long time ago in the past", labels: scale, required: true},
+            {prompt: "I thought about something that made me angry", labels: scale, required: true},
+            {prompt: "I thought about something that made me happy", labels: scale, required: true},
+            {prompt: "I thought about something that made me cheerful", labels: scale, required: true},
+            {prompt: "I thought about something that made me calm", labels: scale, required: true},
+            {prompt: "I thought about something that made me sad", labels: scale, required: true},
+            {prompt: "I thought about something that is important to me", labels: scale, required: true},
+            {prompt: "I thought about something that could still happen today", labels: scale, required: true},
+            {prompt: "I thought about something that may take place in the distant future", labels: scale, required: true},
+            {prompt: "I thought about something that could take place in the near future (days or weeks but not today)", labels: scale, required: true},
+            {prompt: "I thought about personal worries", labels: scale, required: true},
+            {prompt: "During the EEG my thoughts were in the form of images", labels: scale, required: true},
+            {prompt: "During the EEG my thoughts were in the form of words", labels: scale, required: true},
+            {prompt: "During the EEG my thoughts were like an inner monologue or audiobook", labels: scale, required: true},
+            {prompt: "During the EEG my thoughts were like a television program or film", labels: scale, required: true},
+            {prompt: "During the EEG my thoughts had a strong and consistent personal narrative", labels: scale, required: true},
+            {prompt: "During the EEG my thoughts had a clear sense of purpose", labels: scale, required: true},
+            {prompt: "During the EEG my thoughts were vague and non-specific", labels: scale, required: true},
+            {prompt: "During the EEG my thoughts were fragmented and disjointed", labels: scale, required: true},
+        ],
+        randomize_question_order: false,
+        preamble: "<p>We are interested in the thoughts you had during the EEG.</p><p>Please indicate the extent to which each of these statements correctly characterizes your thinking.</p><p>Please indicate, using the scale provided, how much the statement characterizes your thoughts during the EEG.</p>",
+        scale_width: 1200,
+        data: {type: 'NYCQ_responses'}
+    };
+    timeline.push(NYCQ);
+
+    // save data
+    /* SAVING DATA FUNCTION ================== */
+
+    function commitToRepo(jsonData, path) {
+        const url = ".netlify/functions/api"
+
+        // Example:
+        const response = fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'no-cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify({
+                path: path,
+                data: JSON.stringify(jsonData)
+            }) // body data type must match "Content-Type" header
+        }).then((response) => {
+            console.log(response)
+        })
+    }
+
+    // end block
+    var end_screen = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: "<p>You have come to the end of the first phase of this experiment.</p><p>Please let the experimenter know.</p>",
+        choices: "NO_KEYS",
+        trial_duration: 5000,
+        on_finish: function () {
+            jsPsych.endExperiment();
+            var data_saved = jsPsych.data.get();
+            commitToRepo(jsPsych.data.get().json(true), "data/" + ".json")  // Send data to Netlify function
+        },
+        data: {screen: 'final_data'}
+    };
+    timeline.push(end_screen);
+
+
+    /* ----------------- Initialize experiment ----------------- */
+    var jsPsych = initJsPsych({
+        timeline: timeline,
+        experiment_width: 2000,
+    });
+
+    jsPsych.run(timeline);
+
+
+
+</script>
+
+</html>
