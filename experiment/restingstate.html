@@ -7,21 +7,24 @@
     <title>RestingState</title>
 
     <!--load the jsPsych library; set src to own path-->
-    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/jspsych.js"></script>
+    <script src="jspsych/jspsych.js"></script>
 
     <!--Load all necessary plugins-->
-    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-html-keyboard-response.js"></script>
-    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/randomID.js"></script>
-    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-fullscreen.js"></script>
-    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-html-slider-response.js"></script>
-    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/utils.js"></script>
+    <script src="jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="jspsych/randomID.js"></script>
+    <script src="jspsych/plugin-survey-text.js"></script>
+    <script src="jspsych/plugin-fullscreen.js"></script>
+    <script src="jspsych/plugin-html-slider-response.js"></script>
+    <script src="jspsych/plugin-audio-button-response.js"></script>
     <script src="jspsych/plugins/jspsych-call-function.js"></script>
-    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-survey-likert.js"></script>
-    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-sketchpad.js"></script>
-    <script src="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/plugin-canvas-button-response.js"></script>
+    <script src="jspsych/plugin-survey-likert.js"></script>
+    <script src="jspsych/plugin-sketchpad.js"></script>
+    <script src="jspsych/plugin-canvas-button-response.js"></script>
+    <script src="jspsych/plugin-preload.js"></script>
+    <script src="alarm.mp3"></script>
 
     <!-- Applying default style here -->
-    <link href="C:/Users/anshu.te/Dropbox/MyExperiment/jspsych/jspsych.css" rel="stylesheet" type="text/css">
+    <link href="jspsych/jspsych.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -31,8 +34,7 @@
     //create a timeline
     var timeline = [];
 
-    // Get participant and session info
-    // var participant_id = jsPsych.randomization.randomID(15);
+    // participant_id = jsPsych.randomization.randomID(15);  // somehow this causes my file to stop working everytime I run this line
     //  var start_time = jsPsych.getStartTime(); /* get start time of the experiment */
 
     // var session_info = {
@@ -40,22 +42,93 @@
     //    time: start_time,
     // };
 
+    // Utility Functions
+    /* SAVING DATA FUNCTION ================== */
+
+    function commitToRepo(jsonData, path) {
+        const url = ".netlify/functions/api"
+
+        // Example:
+        const response = fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'no-cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify({
+                path: path,
+                data: JSON.stringify(jsonData)
+            }) // body data type must match "Content-Type" header
+        }).then((response) => {
+            console.log(response)
+        })
+    }
+    // Preload audio variables
+    var audio = ['alarm.mp3'];
+
+    var preload_audio = {
+        type: jsPsychPreload,
+        auto_preload: true,
+        audio: audio
+    };
+    timeline.push(preload_audio);
+
     // Enter fullscreen mode
     var fullscreen = {
         type: jsPsychFullscreen,
         fullscreen_mode: true,
     };
-
     timeline.push(fullscreen);
 
-    //create variables for experiment presentation
+    //create welcome page
     var welcome = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: "Welcome to the Experiment. Press any Key to Begin.",
         //data: Object.assign({screen: 'session_info'}, session_info, systemInfo())
     };
-    //add trial to timeline using .push()
     timeline.push(welcome);
+
+    // Participant information
+    var ParticipantAge = {
+        type: jsPsychSurveyText,
+        questions: [
+            {prompt: "Please enter your age:", name: 'Age', required: true}
+        ],
+        data: [{type: 'Age'}]
+    };
+    timeline.push(ParticipantAge);
+
+    var ParticipantInitials = {
+        type: jsPsychSurveyText,
+        questions: [
+            {prompt: "Please enter your initials:", name: 'Initials', required: true}
+        ],
+        data: [{type: 'Initials'}]
+    };
+    timeline.push(ParticipantInitials);
+
+    var ParticipantBirthday = {
+        type: jsPsychSurveyText,
+        questions: [
+            {prompt: "Please enter your birthday:", name: 'Birthday', required: true}
+        ],
+        // on_finish: function (data) {
+        //     var participant_response = JSON.parse(data.responses);
+        //     var ParticipantID = participant_response.Q0;
+        //     jsPsych.data.addProperties({
+        //         participant_id: ParticipantID,
+        //     });
+        // }
+        data: [{type: 'ParticipantBirthday'}]
+    };
+    timeline.push(ParticipantBirthday);
+
+    var ParticipantID = ParticipantAge + ParticipantInitials + ParticipantBirthday;
+
 
     // Instructions
     var instructions = {
@@ -122,6 +195,14 @@
 
     timeline.push(offset);
 
+    var audio_trigger = {
+        type: jsPsychAudioButtonResponse,
+        stimulus: 'alarm.mp3',
+        prompt: '<p> </p><p>Eight minutes has passed! Please continue with the rest of the task.</p)',
+        choices: ['Continue']
+    };
+    timeline.push(audio_trigger);
+
     // Debriefing Questions - NYC-Q
 
     var scale = ["<p>1</p><p>(Completely does not characterize my experience)</p>", "2", "3", "4", "5", "6", "7", "8", "<p>9</p><p>(Completely does characterize my experience)</p>"];
@@ -163,35 +244,10 @@
         randomize_question_order: false,
         preamble: "<p>We are interested in the thoughts you had during the EEG.</p><p>Please indicate the extent to which each of these statements correctly characterizes your thinking.</p><p>Please indicate, using the scale provided, how much the statement characterizes your thoughts during the EEG.</p>",
         scale_width: 1200,
-        data: {type: 'NYCQ_responses'}
+        data: {type: 'NYCQ_responses'},
     };
     timeline.push(NYCQ);
 
-    // save data
-    /* SAVING DATA FUNCTION ================== */
-
-    function commitToRepo(jsonData, path) {
-        const url = ".netlify/functions/api"
-
-        // Example:
-        const response = fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'no-cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify({
-                path: path,
-                data: JSON.stringify(jsonData)
-            }) // body data type must match "Content-Type" header
-        }).then((response) => {
-            console.log(response)
-        })
-    }
 
     // end block
     var end_screen = {
@@ -199,12 +255,12 @@
         stimulus: "<p>You have come to the end of the first phase of this experiment.</p><p>Please let the experimenter know.</p>",
         choices: "NO_KEYS",
         trial_duration: 5000,
+        data: {type: 'final_data'},
         on_finish: function () {
             jsPsych.endExperiment();
             var data_saved = jsPsych.data.get();
-            commitToRepo(jsPsych.data.get().json(true), "data/" + ".json")  // Send data to Netlify function
+            commitToRepo(jsPsych.data.get().json(true), ".data/" + ParticipantID + ".json")  // Send data to Netlify function
         },
-        data: {screen: 'final_data'}
     };
     timeline.push(end_screen);
 
@@ -213,6 +269,9 @@
     var jsPsych = initJsPsych({
         timeline: timeline,
         experiment_width: 2000,
+        on_finish: function () {
+            jsPsych.data.get().localSave('csv', 'restingdata.csv');
+        }
     });
 
     jsPsych.run(timeline);
