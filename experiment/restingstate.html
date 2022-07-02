@@ -11,12 +11,10 @@
 
     <!--Load all necessary plugins-->
     <script src="jspsych/plugin-html-keyboard-response.js"></script>
-    <script src="jspsych/randomID.js"></script>
     <script src="jspsych/plugin-survey-text.js"></script>
     <script src="jspsych/plugin-fullscreen.js"></script>
     <script src="jspsych/plugin-html-slider-response.js"></script>
     <script src="jspsych/plugin-audio-button-response.js"></script>
-    <script src="jspsych/plugins/jspsych-call-function.js"></script>
     <script src="jspsych/plugin-survey-likert.js"></script>
     <script src="jspsych/plugin-sketchpad.js"></script>
     <script src="jspsych/plugin-canvas-button-response.js"></script>
@@ -31,10 +29,25 @@
 <body></body>
 
 <script>
-    //create a timeline
-    var timeline = [];
+    /* ----------------- Initialize experiment ----------------- */
+    var jsPsych = initJsPsych({
+        timeline: timeline,
+        experiment_width: 2000,
+        on_finish: function () {
+            jsPsych.data.get().localSave('csv', `${SubjectID}_restingdata.csv`);
+        }
+    });
 
-    // participant_id = jsPsych.randomization.randomID(15);  // somehow this causes my file to stop working everytime I run this line
+    /* ----------------- Experiment Variables ----------------- */
+
+    // assign random subject id with 10 characters
+    var SubjectID = jsPsych.randomization.randomID(10);
+
+    // add the subject id to every trial in the data
+    jsPsych.data.addProperties({
+        subject: SubjectID
+    });
+
     //  var start_time = jsPsych.getStartTime(); /* get start time of the experiment */
 
     // var session_info = {
@@ -42,31 +55,7 @@
     //    time: start_time,
     // };
 
-    // Utility Functions
-    /* SAVING DATA FUNCTION ================== */
 
-    function commitToRepo(jsonData, path) {
-        const url = ".netlify/functions/api"
-
-        // Example:
-        const response = fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'no-cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify({
-                path: path,
-                data: JSON.stringify(jsonData)
-            }) // body data type must match "Content-Type" header
-        }).then((response) => {
-            console.log(response)
-        })
-    }
     // Preload audio variables
     var audio = ['alarm.mp3'];
 
@@ -75,14 +64,12 @@
         auto_preload: true,
         audio: audio
     };
-    timeline.push(preload_audio);
 
     // Enter fullscreen mode
     var fullscreen = {
         type: jsPsychFullscreen,
         fullscreen_mode: true,
     };
-    timeline.push(fullscreen);
 
     //create welcome page
     var welcome = {
@@ -90,45 +77,17 @@
         stimulus: "Welcome to the Experiment. Press any Key to Begin.",
         //data: Object.assign({screen: 'session_info'}, session_info, systemInfo())
     };
-    timeline.push(welcome);
 
     // Participant information
-    var ParticipantAge = {
+    var ParticipantInfo = {
         type: jsPsychSurveyText,
         questions: [
-            {prompt: "Please enter your age:", name: 'Age', required: true}
+            {prompt: "Please enter your age:", name: 'Age', required: true},
+            {prompt: "Please enter your initials:", name: 'Initials', required: true},
+            {prompt: "Please enter your birthday:", name: 'Birthday', required: true}
         ],
         data: [{type: 'Age'}]
     };
-    timeline.push(ParticipantAge);
-
-    var ParticipantInitials = {
-        type: jsPsychSurveyText,
-        questions: [
-            {prompt: "Please enter your initials:", name: 'Initials', required: true}
-        ],
-        data: [{type: 'Initials'}]
-    };
-    timeline.push(ParticipantInitials);
-
-    var ParticipantBirthday = {
-        type: jsPsychSurveyText,
-        questions: [
-            {prompt: "Please enter your birthday:", name: 'Birthday', required: true}
-        ],
-        // on_finish: function (data) {
-        //     var participant_response = JSON.parse(data.responses);
-        //     var ParticipantID = participant_response.Q0;
-        //     jsPsych.data.addProperties({
-        //         participant_id: ParticipantID,
-        //     });
-        // }
-        data: [{type: 'ParticipantBirthday'}]
-    };
-    timeline.push(ParticipantBirthday);
-
-    var ParticipantID = ParticipantAge + ParticipantInitials + ParticipantBirthday;
-
 
     // Instructions
     var instructions = {
@@ -137,7 +96,6 @@
         choices: "NO_KEYS",
         trial_duration: 6000
     };
-    timeline.push(instructions);
 
     //onset of trial
     // var trial = {
@@ -156,9 +114,7 @@
     //     background_color: '#000000'
     // };
 
-    // timeline.push(trial);
-
-    // create black circle as trigger
+    // create black rectangle to trigger photosensor
     function trigger(canvas, color) {
         var ctx = canvas.getContext("2d");
         ctx.beginPath();
@@ -179,9 +135,7 @@
         trial_duration: 2000
     };
 
-    timeline.push(onset)
-
-    // set trial to trigger offset
+    // set trial to signal offset
     var offset = {
         type: jsPsychCanvasButtonResponse,
         stimulus: function (c) {
@@ -193,18 +147,14 @@
         trial_duration: 500
     };
 
-    timeline.push(offset);
-
     var audio_trigger = {
         type: jsPsychAudioButtonResponse,
         stimulus: 'alarm.mp3',
         prompt: '<p> </p><p>Eight minutes has passed! Please continue with the rest of the task.</p)',
         choices: ['Continue']
     };
-    timeline.push(audio_trigger);
 
     // Debriefing Questions - NYC-Q
-
     var scale = ["<p>1</p><p>(Completely does not characterize my experience)</p>", "2", "3", "4", "5", "6", "7", "8", "<p>9</p><p>(Completely does characterize my experience)</p>"];
 
     var NYCQ = {
@@ -246,8 +196,6 @@
         scale_width: 1200,
         data: {type: 'NYCQ_responses'},
     };
-    timeline.push(NYCQ);
-
 
     // end block
     var end_screen = {
@@ -256,27 +204,44 @@
         choices: "NO_KEYS",
         trial_duration: 5000,
         data: {type: 'final_data'},
-        on_finish: function () {
-            jsPsych.endExperiment();
-            var data_saved = jsPsych.data.get();
-            commitToRepo(jsPsych.data.get().json(true), ".data/" + ParticipantID + ".json")  // Send data to Netlify function
-        },
+        // on_finish: function () {
+        //     jsPsych.endExperiment();
+        //     var data_saved = jsPsych.data.get().json(true), ".data/";
+        //     commitToRepo(jsPsych.data.get().json(true), ".data/" + ParticipantID + ".json")  // Send data to Netlify function
+        // },
     };
-    timeline.push(end_screen);
+
+    // // Utility Functions
+    // /* SAVING DATA FUNCTION ================== */
+
+    // function commitToRepo(jsonData, path) {
+    //     const url = ".netlify/functions/api"
+
+    //     // Example:
+    //     const response = fetch(url, {
+    //         method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    //         mode: 'no-cors', // no-cors, *cors, same-origin
+    //         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    //         credentials: 'same-origin', // include, *same-origin, omit
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         redirect: 'follow', // manual, *follow, error
+    //         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    //         body: JSON.stringify({
+    //             path: path,
+    //             data: JSON.stringify(jsonData)
+    //         }) // body data type must match "Content-Type" header
+    //     }).then((response) => {
+    //         console.log(response)
+    //     })
+    //  }
 
 
-    /* ----------------- Initialize experiment ----------------- */
-    var jsPsych = initJsPsych({
-        timeline: timeline,
-        experiment_width: 2000,
-        on_finish: function () {
-            jsPsych.data.get().localSave('csv', 'restingdata.csv');
-        }
-    });
+    /* ----------------- Set the timeline ----------------- */
+    var timeline = [preload_audio, fullscreen, welcome, ParticipantInfo, instructions, onset, offset, audio_trigger, NYCQ, end_screen];
 
     jsPsych.run(timeline);
-
-
 
 </script>
 
