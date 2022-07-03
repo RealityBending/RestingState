@@ -6,27 +6,43 @@
     <!--create title shown in tab; not the same as header on webpage-->
     <title>RestingState</title>
 
-    <!--load the jsPsych library; set src to own path-->
-    <script src="jspsych/jspsych.js"></script>
+    <script src="https://unpkg.com/jspsych@7.2.3"></script>
 
-    <!--Load all necessary plugins-->
-    <script src="jspsych/plugin-html-keyboard-response.js"></script>
-    <script src="jspsych/plugin-survey-text.js"></script>
-    <script src="jspsych/plugin-fullscreen.js"></script>
-    <script src="jspsych/plugin-html-slider-response.js"></script>
-    <script src="jspsych/plugin-audio-button-response.js"></script>
-    <script src="jspsych/plugin-survey-likert.js"></script>
-    <script src="jspsych/plugin-sketchpad.js"></script>
-    <script src="jspsych/plugin-canvas-button-response.js"></script>
-    <script src="jspsych/plugin-preload.js"></script>
-    <script src="alarm.mp3"></script>
+    <!--Load all necessary plugins using cdn hosted library-->
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-audio-button-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-canvas-button-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.1"></script>
+    <script src="utils/multiple-slider.js"></script>
 
     <!-- Applying default style here -->
-    <link href="jspsych/jspsych.css" rel="stylesheet" type="text/css">
+    <link href="https://unpkg.com/jspsych@7.2.3/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* set background color to grey during rest */
+        .rest {
+            background-color: #808080;
+            color: #808080;
+            margin: 0%;
+            max-width: 100%;
+        }
+
+        /*Hide scrollbar while keeping it functional */
+        body {
+            overflow-y: scroll;
+        }
+
+        Body::-webkit-scrollbar {
+            display: none
+        }
+    </style>
 
 </head>
 
-<body></body>
+<body>
+
+</body>
 
 <script>
     /* ----------------- Initialize experiment ----------------- */
@@ -118,7 +134,7 @@
     function trigger(canvas, color) {
         var ctx = canvas.getContext("2d");
         ctx.beginPath();
-        ctx.fillRect(30, 30, 30, 30);
+        ctx.fillRect(1205, 5, 40, 40);
         //ctx.arc(20, 20, radius, 0, 2 * Math.PI);
         ctx.fillStyle = color;
         ctx.fill();
@@ -132,7 +148,16 @@
         canvas_size: [2000, 2000],
         choices: [],
         stimulus_duration: 500,
-        trial_duration: 2000
+        trial_duration: 500
+    };
+
+    // create blank grey screen for resting state
+    var rest = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: "<p>.</p>",
+        choices: "NO_KEYS",
+        trial_duration: 6000,  // set trial duration to 8 minutes (480000) once finalized
+        css_classes: ['rest']
     };
 
     // set trial to signal offset
@@ -155,46 +180,50 @@
     };
 
     // Debriefing Questions - NYC-Q
-    var scale = ["<p>1</p><p>(Completely does not characterize my experience)</p>", "2", "3", "4", "5", "6", "7", "8", "<p>9</p><p>(Completely does characterize my experience)</p>"];
+    // var scale = ["<p>1</p><p>Not at All</p>", "2", "3", "4", "5", "6", "7", "8", "<p>9</p><p>Very Much</p>"];
+
+    var scale = ['Not at All', 'Very Much']
 
     var NYCQ = {
-        type: jsPsychSurveyLikert,
+        type: jsPsychMultipleSlider,
         questions: [
-            {prompt: "I thought about things I am currently worried about", labels: scale, required: true},
-            {prompt: "I thought about people I have just recently met", labels: scale, required: true},
-            {prompt: "I thought of people I have known for a long time (friends)", labels: scale, required: true},
-            {prompt: "I thought about members of my family", labels: scale, required: true},
-            {prompt: "I thought about an event that took place earlier today", labels: scale, required: true},
-            {prompt: "I thought about an interaction I may possibly have in the future", labels: scale, required: true},
-            {prompt: "I thought about an interaction with somebody that took place in the past", labels: scale, required: true},
-            {prompt: "I thought about something that happened at a place very close to me", labels: scale, required: true},
-            {prompt: "I thought about something that made me feel guilty", labels: scale, required: true},
-            {prompt: "I thought about an event that may take place later today", labels: scale, required: true},
-            {prompt: "I thought about something that happened in the recent past (last couple of days but not today)", labels: scale, required: true},
-            {prompt: "I thought about something that happened a long time ago in the past", labels: scale, required: true},
-            {prompt: "I thought about something that made me angry", labels: scale, required: true},
-            {prompt: "I thought about something that made me happy", labels: scale, required: true},
-            {prompt: "I thought about something that made me cheerful", labels: scale, required: true},
-            {prompt: "I thought about something that made me calm", labels: scale, required: true},
-            {prompt: "I thought about something that made me sad", labels: scale, required: true},
-            {prompt: "I thought about something that is important to me", labels: scale, required: true},
-            {prompt: "I thought about something that could still happen today", labels: scale, required: true},
-            {prompt: "I thought about something that may take place in the distant future", labels: scale, required: true},
-            {prompt: "I thought about something that could take place in the near future (days or weeks but not today)", labels: scale, required: true},
-            {prompt: "I thought about personal worries", labels: scale, required: true},
-            {prompt: "During the EEG my thoughts were in the form of images", labels: scale, required: true},
-            {prompt: "During the EEG my thoughts were in the form of words", labels: scale, required: true},
-            {prompt: "During the EEG my thoughts were like an inner monologue or audiobook", labels: scale, required: true},
-            {prompt: "During the EEG my thoughts were like a television program or film", labels: scale, required: true},
-            {prompt: "During the EEG my thoughts had a strong and consistent personal narrative", labels: scale, required: true},
-            {prompt: "During the EEG my thoughts had a clear sense of purpose", labels: scale, required: true},
-            {prompt: "During the EEG my thoughts were vague and non-specific", labels: scale, required: true},
-            {prompt: "During the EEG my thoughts were fragmented and disjointed", labels: scale, required: true},
+            {prompt: "I thought about things I am currently worried about", ticks: scale, required: true},
+            {prompt: "I thought about people I have just recently met", ticks: scale, required: true},
+            {prompt: "I thought of people I have known for a long time (friends)", ticks: scale, required: true},
+            {prompt: "I thought about members of my family", ticks: scale, required: true},
+            {prompt: "I thought about an event that took place earlier today", ticks: scale, required: true},
+            {prompt: "I thought about an interaction I may possibly have in the future", ticks: scale, required: true},
+            {prompt: "I thought about an interaction with somebody that took place in the past", ticks: scale, required: true},
+            {prompt: "I thought about something that happened at a place very close to me", ticks: scale, required: true},
+            {prompt: "I thought about something that made me feel guilty", ticks: scale, required: true},
+            {prompt: "I thought about an event that may take place later today", ticks: scale, required: true},
+            {prompt: "I thought about something that happened in the recent past (last couple of days but not today)", ticks: scale, required: true},
+            {prompt: "I thought about something that happened a long time ago in the past", ticks: scale, required: true},
+            {prompt: "I thought about something that made me angry", ticks: scale, required: true},
+            {prompt: "I thought about something that made me happy", ticks: scale, required: true},
+            {prompt: "I thought about something that made me cheerful", ticks: scale, required: true},
+            {prompt: "I thought about something that made me calm", ticks: scale, required: true},
+            {prompt: "I thought about something that made me sad", ticks: scale, required: true},
+            {prompt: "I thought about something that is important to me", ticks: scale, required: true},
+            {prompt: "I thought about something that could still happen today", ticks: scale, required: true},
+            {prompt: "I thought about something that may take place in the distant future", ticks: scale, required: true},
+            {prompt: "I thought about something that could take place in the near future (days or weeks but not today)", ticks: scale, required: true},
+            {prompt: "I thought about personal worries", ticks: scale, required: true},
+            {prompt: "During the EEG my thoughts were in the form of images", ticks: scale, required: true},
+            {prompt: "During the EEG my thoughts were in the form of words", ticks: scale, required: true},
+            {prompt: "During the EEG my thoughts were like an inner monologue or audiobook", ticks: scale, required: true},
+            {prompt: "During the EEG my thoughts were like a television program or film", ticks: scale, required: true},
+            {prompt: "During the EEG my thoughts had a strong and consistent personal narrative", ticks: scale, required: true},
+            {prompt: "During the EEG my thoughts had a clear sense of purpose", ticks: scale, required: true},
+            {prompt: "During the EEG my thoughts were vague and non-specific", ticks: scale, required: true},
+            {prompt: "During the EEG my thoughts were fragmented and disjointed", ticks: scale, required: true},
         ],
         randomize_question_order: false,
-        preamble: "<p>We are interested in the thoughts you had during the EEG.</p><p>Please indicate the extent to which each of these statements correctly characterizes your thinking.</p><p>Please indicate, using the scale provided, how much the statement characterizes your thoughts during the EEG.</p>",
-        scale_width: 1200,
-        data: {type: 'NYCQ_responses'},
+        preamble: `We are interested in the thoughts you had during the EEG. Please indicate the extent to which each of these statements correctly characterizes your thinking. Please indicate, using the scale provided, how much the statement characterizes your thoughts during the EEG. <br /><br />
+        `,
+        randomize_question_order: false,
+        require_movement: true,
+        slider_width: 1150,
     };
 
     // end block
@@ -237,9 +266,48 @@
     //     })
     //  }
 
+    // var NYCQ = {
+    //     type: jsPsychSurveyLikert,
+    //     questions: [
+    //         {prompt: "I thought about things I am currently worried about", labels: scale, required: true},
+    //         {prompt: "I thought about people I have just recently met", labels: scale, required: true},
+    //         {prompt: "I thought of people I have known for a long time (friends)", labels: scale, required: true},
+    //         {prompt: "I thought about members of my family", labels: scale, required: true},
+    //         {prompt: "I thought about an event that took place earlier today", labels: scale, required: true},
+    //         {prompt: "I thought about an interaction I may possibly have in the future", labels: scale, required: true},
+    //         {prompt: "I thought about an interaction with somebody that took place in the past", labels: scale, required: true},
+    //         {prompt: "I thought about something that happened at a place very close to me", labels: scale, required: true},
+    //         {prompt: "I thought about something that made me feel guilty", labels: scale, required: true},
+    //         {prompt: "I thought about an event that may take place later today", labels: scale, required: true},
+    //         {prompt: "I thought about something that happened in the recent past (last couple of days but not today)", labels: scale, required: true},
+    //         {prompt: "I thought about something that happened a long time ago in the past", labels: scale, required: true},
+    //         {prompt: "I thought about something that made me angry", labels: scale, required: true},
+    //         {prompt: "I thought about something that made me happy", labels: scale, required: true},
+    //         {prompt: "I thought about something that made me cheerful", labels: scale, required: true},
+    //         {prompt: "I thought about something that made me calm", labels: scale, required: true},
+    //         {prompt: "I thought about something that made me sad", labels: scale, required: true},
+    //         {prompt: "I thought about something that is important to me", labels: scale, required: true},
+    //         {prompt: "I thought about something that could still happen today", labels: scale, required: true},
+    //         {prompt: "I thought about something that may take place in the distant future", labels: scale, required: true},
+    //         {prompt: "I thought about something that could take place in the near future (days or weeks but not today)", labels: scale, required: true},
+    //         {prompt: "I thought about personal worries", labels: scale, required: true},
+    //         {prompt: "During the EEG my thoughts were in the form of images", labels: scale, required: true},
+    //         {prompt: "During the EEG my thoughts were in the form of words", labels: scale, required: true},
+    //         {prompt: "During the EEG my thoughts were like an inner monologue or audiobook", labels: scale, required: true},
+    //         {prompt: "During the EEG my thoughts were like a television program or film", labels: scale, required: true},
+    //         {prompt: "During the EEG my thoughts had a strong and consistent personal narrative", labels: scale, required: true},
+    //         {prompt: "During the EEG my thoughts had a clear sense of purpose", labels: scale, required: true},
+    //         {prompt: "During the EEG my thoughts were vague and non-specific", labels: scale, required: true},
+    //         {prompt: "During the EEG my thoughts were fragmented and disjointed", labels: scale, required: true},
+    //     ],
+    //     randomize_question_order: false,
+    //     preamble: "<p>We are interested in the thoughts you had during the EEG.</p><p>Please indicate the extent to which each of these statements correctly characterizes your thinking.</p><p>Please indicate, using the scale provided, how much the statement characterizes your thoughts during the EEG.</p>",
+    //     scale_width: 1200,
+    //     data: {type: 'NYCQ_responses'},
+    // };
 
     /* ----------------- Set the timeline ----------------- */
-    var timeline = [preload_audio, fullscreen, welcome, ParticipantInfo, instructions, onset, offset, audio_trigger, NYCQ, end_screen];
+    var timeline = [preload_audio, fullscreen, welcome, ParticipantInfo, instructions, onset, rest, offset, audio_trigger, NYCQ, end_screen];
 
     jsPsych.run(timeline);
 
