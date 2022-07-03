@@ -140,7 +140,7 @@
         ctx.fill();
     }
     // set trial to trigger onset of resting state trial
-    var onset = {
+    var trigger_sensor = {
         type: jsPsychCanvasButtonResponse,
         stimulus: function (c) {
             trigger(c, 'black');
@@ -158,18 +158,6 @@
         choices: "NO_KEYS",
         trial_duration: 6000,  // set trial duration to 8 minutes (480000) once finalized
         css_classes: ['rest']
-    };
-
-    // set trial to signal offset
-    var offset = {
-        type: jsPsychCanvasButtonResponse,
-        stimulus: function (c) {
-            trigger(c, 'black');
-        },
-        canvas_size: [2000, 2000],
-        choices: [],
-        stimulus_duration: 500,
-        trial_duration: 500
     };
 
     var audio_trigger = {
@@ -307,7 +295,7 @@
     // };
 
     /* ----------------- Set the timeline ----------------- */
-    var timeline = [preload_audio, fullscreen, welcome, ParticipantInfo, instructions, onset, rest, offset, audio_trigger, NYCQ, end_screen];
+    var timeline = [preload_audio, fullscreen, welcome, ParticipantInfo, instructions, trigger_sensor, rest, trigger_sensor, audio_trigger, NYCQ, end_screen];
 
     jsPsych.run(timeline);
 
