@@ -32,7 +32,7 @@ This repository contains a resting state (RS) paradigm task implemented in [jsPs
 
 ### Post RS assessment
 
-![](figures/Diaz2014.png)
+![](figures/Diazgjk2014.png)
 
 Different questionnaires were used to assess subjective experiences and inner thoughts during resting state to potentially explore how it relates to brain and bodily activity.
 
