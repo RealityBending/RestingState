@@ -1,4 +1,4 @@
-<img align="right" height="200" src="Figures/Logo.png">
+<img align="right" height="200" src="figures/Logo.png">
 
 
 # Resting State Paradigm
