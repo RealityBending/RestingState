@@ -80,28 +80,22 @@
         audio: audio
     };
 
-    // Enter fullscreen mode
-    var fullscreen = {
+    // Enter/exit fullscreen mode
+    var fullscreen_on = {
         type: jsPsychFullscreen,
         fullscreen_mode: true,
     };
-
-    //create welcome page
-    var welcome = {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: "Welcome to the Experiment. Press any Key to Begin.",
-        //data: Object.assign({screen: 'session_info'}, session_info, systemInfo())
+    var fullscreen_off = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: false,
     };
 
     // Participant information
-    var ParticipantInfo = {
+    var participant_info = {
         type: jsPsychSurveyText,
         questions: [
-            {prompt: "Please enter your age:", name: 'Age', required: true},
-            {prompt: "Please enter your initials:", name: 'Initials', required: true},
-            {prompt: "Please enter your birthday:", name: 'Birthday', required: true}
+            { prompt: "Please enter the participant's ID:", name: 'Participant', required: true },
         ],
-        data: [{type: 'Age'}]
     };
 
     // Instructions
@@ -175,7 +169,7 @@
         type: jsPsychAudioButtonResponse,
         on_start: set_background2,
         stimulus: 'alarm.mp3',
-        prompt: '<p> </p><p>Eight minutes has passed! Please continue with the rest of the task.</p)',
+        prompt: '<p> </p><p>You can open your eyes and continue with the rest of the task.</p)',
         choices: ['Continue']
     };
 
@@ -188,40 +182,39 @@
         type: jsPsychMultipleSlider,  // this is a custom plugin in utils
         on_start: set_background2,
         questions: [
-            {prompt: "I thought about things I am currently worried about", ticks: scale, required: true},
-            {prompt: "I thought about people I have just recently met", ticks: scale, required: true},
-            {prompt: "I thought of people I have known for a long time (friends)", ticks: scale, required: true},
-            {prompt: "I thought about members of my family", ticks: scale, required: true},
-            {prompt: "I thought about an event that took place earlier today", ticks: scale, required: true},
-            {prompt: "I thought about an interaction I may possibly have in the future", ticks: scale, required: true},
-            {prompt: "I thought about an interaction with somebody that took place in the past", ticks: scale, required: true},
-            {prompt: "I thought about something that happened at a place very close to me", ticks: scale, required: true},
-            {prompt: "I thought about something that made me feel guilty", ticks: scale, required: true},
-            {prompt: "I thought about an event that may take place later today", ticks: scale, required: true},
-            {prompt: "I thought about something that happened in the recent past (last couple of days but not today)", ticks: scale, required: true},
-            {prompt: "I thought about something that happened a long time ago in the past", ticks: scale, required: true},
-            {prompt: "I thought about something that made me angry", ticks: scale, required: true},
-            {prompt: "I thought about something that made me happy", ticks: scale, required: true},
-            {prompt: "I thought about something that made me cheerful", ticks: scale, required: true},
-            {prompt: "I thought about something that made me calm", ticks: scale, required: true},
-            {prompt: "I thought about something that made me sad", ticks: scale, required: true},
-            {prompt: "I thought about something that is important to me", ticks: scale, required: true},
-            {prompt: "I thought about something that could still happen today", ticks: scale, required: true},
-            {prompt: "I thought about something that may take place in the distant future", ticks: scale, required: true},
-            {prompt: "I thought about something that could take place in the near future (days or weeks but not today)", ticks: scale, required: true},
-            {prompt: "I thought about personal worries", ticks: scale, required: true},
-            {prompt: "During the EEG my thoughts were in the form of images", ticks: scale, required: true},
-            {prompt: "During the EEG my thoughts were in the form of words", ticks: scale, required: true},
-            {prompt: "During the EEG my thoughts were like an inner monologue or audiobook", ticks: scale, required: true},
-            {prompt: "During the EEG my thoughts were like a television program or film", ticks: scale, required: true},
-            {prompt: "During the EEG my thoughts had a strong and consistent personal narrative", ticks: scale, required: true},
-            {prompt: "During the EEG my thoughts had a clear sense of purpose", ticks: scale, required: true},
-            {prompt: "During the EEG my thoughts were vague and non-specific", ticks: scale, required: true},
-            {prompt: "During the EEG my thoughts were fragmented and disjointed", ticks: scale, required: true},
+            { prompt: "I thought about things I am currently worried about", ticks: scale, required: true },
+            { prompt: "I thought about people I have just recently met", ticks: scale, required: true },
+            { prompt: "I thought of people I have known for a long time (friends)", ticks: scale, required: true },
+            { prompt: "I thought about members of my family", ticks: scale, required: true },
+            { prompt: "I thought about an event that took place earlier today", ticks: scale, required: true },
+            { prompt: "I thought about an interaction I may possibly have in the future", ticks: scale, required: true },
+            { prompt: "I thought about an interaction with somebody that took place in the past", ticks: scale, required: true },
+            { prompt: "I thought about something that happened at a place very close to me", ticks: scale, required: true },
+            { prompt: "I thought about something that made me feel guilty", ticks: scale, required: true },
+            { prompt: "I thought about an event that may take place later today", ticks: scale, required: true },
+            { prompt: "I thought about something that happened in the recent past (last couple of days but not today)", ticks: scale, required: true },
+            { prompt: "I thought about something that happened a long time ago in the past", ticks: scale, required: true },
+            { prompt: "I thought about something that made me angry", ticks: scale, required: true },
+            { prompt: "I thought about something that made me happy", ticks: scale, required: true },
+            { prompt: "I thought about something that made me cheerful", ticks: scale, required: true },
+            { prompt: "I thought about something that made me calm", ticks: scale, required: true },
+            { prompt: "I thought about something that made me sad", ticks: scale, required: true },
+            { prompt: "I thought about something that is important to me", ticks: scale, required: true },
+            { prompt: "I thought about something that could still happen today", ticks: scale, required: true },
+            { prompt: "I thought about something that may take place in the distant future", ticks: scale, required: true },
+            { prompt: "I thought about something that could take place in the near future (days or weeks but not today)", ticks: scale, required: true },
+            { prompt: "I thought about personal worries", ticks: scale, required: true },
+            { prompt: "During the EEG my thoughts were in the form of images", ticks: scale, required: true },
+            { prompt: "During the EEG my thoughts were in the form of words", ticks: scale, required: true },
+            { prompt: "During the EEG my thoughts were like an inner monologue or audiobook", ticks: scale, required: true },
+            { prompt: "During the EEG my thoughts were like a television program or film", ticks: scale, required: true },
+            { prompt: "During the EEG my thoughts had a strong and consistent personal narrative", ticks: scale, required: true },
+            { prompt: "During the EEG my thoughts had a clear sense of purpose", ticks: scale, required: true },
+            { prompt: "During the EEG my thoughts were vague and non-specific", ticks: scale, required: true },
+            { prompt: "During the EEG my thoughts were fragmented and disjointed", ticks: scale, required: true },
         ],
         randomize_question_order: false,
-        preamble: `We are interested in the thoughts you had during the EEG. Please indicate the extent to which each of these statements correctly characterizes your thinking. Please indicate, using the scale provided, how much the statement characterizes your thoughts during the EEG. <br /><br />
-        `,
+        preamble: "We are interested in the thoughts you had during the EEG. Please indicate the extent to which each of these statements correctly characterizes your thinking. Please indicate, using the scale provided, how much the statement characterizes your thoughts during the EEG. <br /><br/> ",
         randomize_question_order: false,
         require_movement: true,
         slider_width: 1150,
@@ -234,7 +227,7 @@
         stimulus: "<p>You have come to the end of the first phase of this experiment.</p><p>Please let the experimenter know.</p>",
         choices: "NO_KEYS",
         trial_duration: 5000,
-        data: {type: 'final_data'},
+        data: { type: 'final_data' },
         // on_finish: function () {
         //     jsPsych.endExperiment();
         //     var data_saved = jsPsych.data.get().json(true), ".data/";
@@ -309,7 +302,7 @@
     // };
 
     /* ----------------- Set the timeline ----------------- */
-    var timeline = [preload_audio, fullscreen, welcome, ParticipantInfo, instructions, trigger_sensor, rest, trigger_sensor, audio_trigger, NYCQ, end_screen];
+    var timeline = [preload_audio, participant_info, fullscreen_on, instructions, trigger_sensor, rest, trigger_sensor, audio_trigger, fullscreen_off, NYCQ, end_screen];
 
     jsPsych.run(timeline);
 
