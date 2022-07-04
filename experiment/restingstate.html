@@ -10,6 +10,7 @@
 
     <!--Load all necessary plugins using cdn hosted library-->
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.1"></script>
     <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.1"></script>
     <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.1"></script>
     <script src="https://unpkg.com/@jspsych/plugin-audio-button-response@1.1.1"></script>
@@ -21,9 +22,7 @@
     <link href="https://unpkg.com/jspsych@7.2.3/css/jspsych.css" rel="stylesheet" type="text/css" />
     <style>
         /* set background color to grey during rest */
-        .rest {
-            background-color: #808080;
-            color: #808080;
+        .trigger {
             margin: 0%;
             max-width: 100%;
         }
@@ -107,10 +106,9 @@
 
     // Instructions
     var instructions = {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: "<p>In this study, you will be asked to participate in a series of cognitive tasks meant to assess different facets of your mental processes.</p><p>In the first phase of this study, you will be required to close your eyes for eight minutes without falling asleep.</p><p> Please try not to think of anything and relax as you are doing so.</p><p>Once you have read and understood the instructions, please close your eyes for the trial to begin.</p>",
-        choices: "NO_KEYS",
-        trial_duration: 6000
+        type: jsPsychHtmlButtonResponse,
+        stimulus: "<p>In this study, you will be asked to participate in a series of cognitive tasks meant to assess different facets of your mental processes.</p><p>A rest period of eight minutes will shortly start.</p><p> It is important that you relax and remain seated quietly behind your computer with your eyes closed.</p><p> Try not to fall asleep.</p><p> Once you click on 'Continue', a timer will count down from 8 minutes to 0.</p><p> Once the resting period is over, you will hear a beep.</p><p> Subsequently you will open your eyes and follow the instructions.</p><p> Now, sit down quietly, click 'Continue' and immediately close your eyes to start the resting period</p>",
+        choices: ['Continue'],
     };
 
     //onset of trial
@@ -134,34 +132,48 @@
     function trigger(canvas, color) {
         var ctx = canvas.getContext("2d");
         ctx.beginPath();
-        ctx.fillRect(1205, 5, 40, 40);
+        ctx.fillRect(0, 0, 100, 100);
         //ctx.arc(20, 20, radius, 0, 2 * Math.PI);
         ctx.fillStyle = color;
         ctx.fill();
     }
+
+    function set_background1() {
+                document.body.style.backgroundColor ='#808080'
+            }
+    function set_background2() {
+                document.body.style.backgroundColor ='#FFFFFF'
+            }
+
     // set trial to trigger onset of resting state trial
     var trigger_sensor = {
         type: jsPsychCanvasButtonResponse,
+        on_start: set_background2,
         stimulus: function (c) {
             trigger(c, 'black');
         },
-        canvas_size: [2000, 2000],
+        canvas_size: [10000, 10000],
         choices: [],
         stimulus_duration: 500,
-        trial_duration: 500
+        trial_duration: 500,
+        css_classes: ['trigger']
+
     };
 
     // create blank grey screen for resting state
+
     var rest = {
         type: jsPsychHtmlKeyboardResponse,
+        on_start: set_background1,
         stimulus: "<p>.</p>",
         choices: "NO_KEYS",
-        trial_duration: 6000,  // set trial duration to 8 minutes (480000) once finalized
+        trial_duration: 6000,
         css_classes: ['rest']
     };
 
     var audio_trigger = {
         type: jsPsychAudioButtonResponse,
+        on_start: set_background2,
         stimulus: 'alarm.mp3',
         prompt: '<p> </p><p>Eight minutes has passed! Please continue with the rest of the task.</p)',
         choices: ['Continue']
@@ -174,6 +186,7 @@
 
     var NYCQ = {
         type: jsPsychMultipleSlider,  // this is a custom plugin in utils
+        on_start: set_background2,
         questions: [
             {prompt: "I thought about things I am currently worried about", ticks: scale, required: true},
             {prompt: "I thought about people I have just recently met", ticks: scale, required: true},
@@ -217,6 +230,7 @@
     // end block
     var end_screen = {
         type: jsPsychHtmlKeyboardResponse,
+        on_start: set_background2,
         stimulus: "<p>You have come to the end of the first phase of this experiment.</p><p>Please let the experimenter know.</p>",
         choices: "NO_KEYS",
         trial_duration: 5000,
