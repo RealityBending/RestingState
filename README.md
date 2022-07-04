@@ -39,7 +39,7 @@ Different questionnaires were used to assess subjective experiences and inner th
   - Short version with 3 items per scale (total items = 21)
   - We didn't keep the "new" factors to keep it short (it seems like they capture relatively less important and stable aspects of RS). However, if need be, these dimensions can be added by simply uncommenting them in the file.
 
-<p align="right"><img src="/figures/diaz2014.png" width="100" /></p>
+<p align="right"><img src="/figures/Diaz2014.png" width="100" /></p>
 
 
 ### Neuro-behavioural Associations
