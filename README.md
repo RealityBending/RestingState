@@ -10,9 +10,13 @@ This repository contains a resting state (RS) paradigm task implemented in [jsPs
 
 ## Features
 
-- [x] Eyes closed (to minimize eyes-related artifacts for EEG)
+- [x] Eyes closed
+  - Minimize eyes-related artifacts for EEG
+  - Increase participant's comfort
 - [x] 8 min
-- [x] Post-resting state assessment
+  - Long-enough to reliably capture multimodal features
+- [x] Standardized post resting-state assessment
+  - Using the [ARSQ 2.0](https://doi.org/10.1016/j.heliyon.2019.e02533)
 
 ## Scientific Background
 
@@ -28,7 +32,7 @@ This repository contains a resting state (RS) paradigm task implemented in [jsPs
 
 ### Post RS assessment
 
-Some type of scale to assess subjective experiences and inner thoughts during resting EEG to potentially explore differences in types of self-generated thoughts and how they relate to whole brain measures of intrinsic brain activity
+Different questionnaires were used to assess subjective experiences and inner thoughts during resting state to potentially explore how it relates to brain and bodily activity.
 
 - [Amsterdam Resting State Questionnaire 2.0](https://doi.org/10.1016/j.heliyon.2019.e02533) (ARSQ)
   - 54 item scale
