@@ -1,19 +1,37 @@
 # RestingState
 
-This repository is created for a resting state paradigm (eyes closed, 8 min) to be implemented using jsPsych.
+This repository contains a resting state (RS) paradigm task implemented in [jsPsych]() that can be run from the browser:
 
-# State of the Art
+# Features
 
-## Measures  
+- [x] Eyes closed (to minimize eyes-related artifacts for EEG)
+- [x] 8 min
+- [x] Post-resting state assessment
 
-- Some type of scale to assess subjective experiences and inner thoughts during resting EEG to potentially explore differences in types of self-generated thoughts and how they relate to whole brain measures of intrinsic brain activity 
+# Scientific Background
 
-1. https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0097176 (New York Cognition Questionnaire - 31 item scale)
+## Eyes-closed vs. Eyes-opened
+
+- TODO: Review arguments in favour / against.
 
 
-2. https://doi.org/10.1016/j.heliyon.2019.e02533 (Amsterdam Resting State Questionnaire 2.0 - 54 item scale)
-  https://www.frontiersin.org/articles/10.3389/fpsyg.2014.00271/full 
+## Duration
 
+- TODO: Arguments for given duration
+- TODO: Study about HRV + EEG Complexity + EEG Frequency indices stability
+
+## Post RS assessment
+
+Some type of scale to assess subjective experiences and inner thoughts during resting EEG to potentially explore differences in types of self-generated thoughts and how they relate to whole brain measures of intrinsic brain activity
+
+- [Amsterdam Resting State Questionnaire 2.0](https://doi.org/10.1016/j.heliyon.2019.e02533) (ARSQ)
+  - 54 item scale
+
+### Microstates
+
+[Pipinis et al. (2016)](https://link.springer.com/article/10.1007/s10548-016-0522-2) showed associations between **microstate B** and **Comfort**, and **microstate C** and **Somatic Awareness (SA)**.
+
+![](figures/Pipinis2016.png)
 
 
 
