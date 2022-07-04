@@ -1,12 +1,15 @@
-# Resting State
+<img align="right" height="200" src="Figures/Logo.png">
 
-This repository contains a resting state (RS) paradigm task implemented in [jsPsych](https://www.jspsych.org/7.2/) that can be run from the browser:
+
+# Resting State Paradigm
+
+This repository contains an open-source resting state (RS) paradigm task implemented in [jsPsych](https://www.jspsych.org/7.2/) that can be run from the browser:
 
 - [https://realitybending.github.io/RestingState/](https://realitybending.github.io/RestingState/)
 
 ## Installation
 
-**No installation required!** You can run it directly using the following [**link**](https://realitybending.github.io/RestingState/).
+**No installation required!** You can run it directly out-of-the box using the following [**link**](https://realitybending.github.io/RestingState/).
 
 If you want to run it locally or edit it:
 - [**download**](https://github.com/RealityBending/RestingState/archive/refs/heads/main.zip) the whole repository
@@ -41,7 +44,6 @@ You can also edit the html file (e.g., using notepad), as well as the [**paramet
 
 ### Post RS assessment
 
-![](figures/Diaz2014.png)
 
 Different questionnaires were used to assess subjective experiences and inner thoughts during resting state to potentially explore how it relates to brain and bodily activity.
 
@@ -49,6 +51,7 @@ Different questionnaires were used to assess subjective experiences and inner th
   - Short version with 3 items per scale (total items = 21)
   - We didn't keep the "new" factors to keep it short (it seems like they capture relatively less important and stable aspects of RS). However, if need be, these dimensions can be added by simply uncommenting them in the file.
 
+![](figures/Diaz2014.png)
 
 
 
