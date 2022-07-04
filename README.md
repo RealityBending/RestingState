@@ -32,11 +32,15 @@ This repository contains a resting state (RS) paradigm task implemented in [jsPs
 
 ### Post RS assessment
 
+
 Different questionnaires were used to assess subjective experiences and inner thoughts during resting state to potentially explore how it relates to brain and bodily activity.
 
 - [Amsterdam Resting State Questionnaire 2.0](https://www.frontiersin.org/articles/10.3389/fpsyg.2014.00271/full) (ARSQ)
   - Short version with 3 items per scale (total items = 21)
   - We didn't keep the "new" factors to keep it short (it seems like they capture relatively less important and stable aspects of RS). However, if need be, these dimensions can be added by simply uncommenting them in the file.
+
+<p align="right"><img src="/figures/diaz2014.png" width="100" /></p>
+
 
 ### Neuro-behavioural Associations
 
