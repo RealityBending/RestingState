@@ -49,6 +49,7 @@
         timeline: timeline,
         experiment_width: 2000,
         on_finish: function () {
+            jsPsych.data.displayData('json')
             jsPsych.data.get().localSave('csv', `${SubjectID}_restingdata.csv`);
         }
     });
@@ -94,7 +95,7 @@
     var participant_info = {
         type: jsPsychSurveyText,
         questions: [
-            { prompt: "Please enter the participant's ID:", name: 'Participant', required: true },
+            {prompt: "Please enter the participant's ID:", name: 'Participant', required: true},
         ],
     };
 
@@ -133,11 +134,11 @@
     }
 
     function set_background1() {
-                document.body.style.backgroundColor ='#808080'
-            }
+        document.body.style.backgroundColor = '#808080'
+    }
     function set_background2() {
-                document.body.style.backgroundColor ='#FFFFFF'
-            }
+        document.body.style.backgroundColor = '#FFFFFF'
+    }
 
     // set trial to trigger onset of resting state trial
     var trigger_sensor = {
@@ -182,36 +183,36 @@
         type: jsPsychMultipleSlider,  // this is a custom plugin in utils
         on_start: set_background2,
         questions: [
-            { prompt: "I had busy thoughts", ticks: scale, required: true },
-            { prompt: "I had rapidly switching thoughts", ticks: scale, required: true },
-            { prompt: "I had difficulty holding onto my thoughts", ticks: scale, required: true },
-            { prompt: "I thought about others", ticks: scale, required: true },
-            { prompt: "I thought about people I like", ticks: scale, required: true },
-            { prompt: "I placed myself in other people's shoes", ticks: scale, required: true },
-            { prompt: "I thought about my feelings", ticks: scale, required: true },
-            { prompt: "I thought about my behaviour", ticks: scale, required: true },
-            { prompt: "I thought about myself", ticks: scale, required: true },
-            { prompt: "I thought about things I need to do", ticks: scale, required: true },
-            { prompt: "I thought about solving problems", ticks: scale, required: true },
-            { prompt: "I thought about the future", ticks: scale, required: true },
-            { prompt: "I felt sleepy", ticks: scale, required: true },
-            { prompt: "I felt tired", ticks: scale, required: true },
-            { prompt: "I had difficulty staying awake", ticks: scale, required: true },
-            { prompt: "I felt comfortable", ticks: scale, required: true },
-            { prompt: "I felt happy", ticks: scale, required: true },
-            { prompt: "I felt relaxed", ticks: scale, required: true },
-            { prompt: "I was conscious of my body", ticks: scale, required: true },
-            { prompt: "I thought about my heartbeat", ticks: scale, required: true },
-            { prompt: "I thought about my breathing", ticks: scale, required: true },
-            { prompt: "I felt ill", ticks: scale, required: true },
-            { prompt: "I thought about my health", ticks: scale, required: true },
-            { prompt: "I felt pain", ticks: scale, required: true },
-            { prompt: "I thought in images", ticks: scale, required: true },
-            { prompt: "I pictured events", ticks: scale, required: true },
-            { prompt: "I pictured places", ticks: scale, required: true },
-            { prompt: "I thought in words", ticks: scale, required: true },
-            { prompt: "I had silent conversations", ticks: scale, required: true },
-            { prompt: "I imagined talking to myself", ticks: scale, required: true },
+            {prompt: "I had busy thoughts", ticks: scale, required: true},
+            {prompt: "I had rapidly switching thoughts", ticks: scale, required: true},
+            {prompt: "I had difficulty holding onto my thoughts", ticks: scale, required: true},
+            {prompt: "I thought about others", ticks: scale, required: true},
+            {prompt: "I thought about people I like", ticks: scale, required: true},
+            {prompt: "I placed myself in other people's shoes", ticks: scale, required: true},
+            {prompt: "I thought about my feelings", ticks: scale, required: true},
+            {prompt: "I thought about my behaviour", ticks: scale, required: true},
+            {prompt: "I thought about myself", ticks: scale, required: true},
+            {prompt: "I thought about things I need to do", ticks: scale, required: true},
+            {prompt: "I thought about solving problems", ticks: scale, required: true},
+            {prompt: "I thought about the future", ticks: scale, required: true},
+            {prompt: "I felt sleepy", ticks: scale, required: true},
+            {prompt: "I felt tired", ticks: scale, required: true},
+            {prompt: "I had difficulty staying awake", ticks: scale, required: true},
+            {prompt: "I felt comfortable", ticks: scale, required: true},
+            {prompt: "I felt happy", ticks: scale, required: true},
+            {prompt: "I felt relaxed", ticks: scale, required: true},
+            {prompt: "I was conscious of my body", ticks: scale, required: true},
+            {prompt: "I thought about my heartbeat", ticks: scale, required: true},
+            {prompt: "I thought about my breathing", ticks: scale, required: true},
+            {prompt: "I felt ill", ticks: scale, required: true},
+            {prompt: "I thought about my health", ticks: scale, required: true},
+            {prompt: "I felt pain", ticks: scale, required: true},
+            {prompt: "I thought in images", ticks: scale, required: true},
+            {prompt: "I pictured events", ticks: scale, required: true},
+            {prompt: "I pictured places", ticks: scale, required: true},
+            {prompt: "I thought in words", ticks: scale, required: true},
+            {prompt: "I had silent conversations", ticks: scale, required: true},
+            {prompt: "I imagined talking to myself", ticks: scale, required: true},
         ],
         randomize_question_order: true,
         preamble: "We are interested in the potential feelings and thoughts you may have experienced during the resting period. Please indicate the extent to which you agree with each statement.”. <br /><br/> ",
@@ -226,7 +227,7 @@
         stimulus: "<p>You have come to the end of the first phase of this experiment.</p><p>Please let the experimenter know.</p>",
         choices: "NO_KEYS",
         trial_duration: 5000,
-        data: { type: 'final_data' },
+        data: {type: 'final_data'},
         // on_finish: function () {
         //     jsPsych.endExperiment();
         //     var data_saved = jsPsych.data.get().json(true), ".data/";
