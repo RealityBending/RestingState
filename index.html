@@ -122,7 +122,7 @@
         stimulus: function (canvas, color = "black") {
             var ctx = canvas.getContext("2d");
             ctx.beginPath();
-            ctx.fillRect(0, 0, 100, 100);
+            ctx.fillRect(...marker_position);
             //ctx.arc(20, 20, radius, 0, 2 * Math.PI);
             ctx.fillStyle = color;
             ctx.fill();
