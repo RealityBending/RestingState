@@ -141,7 +141,14 @@
         stimulus: "<p style='font-size:50px;'> +</p>",
         choices: ["s"],
         trial_duration: duration * 60 * 1000,
-        css_classes: ['fixation']
+        css_classes: ['fixation'],
+        data: {
+            screen: 'resting',
+            time_start: function () { return performance.now() }
+        },
+        on_finish: function (data) {
+            data.duration = (performance.now() - data.time_start) / 1000 / 60
+        }
     };
 
     var audio_trigger = {
@@ -317,6 +324,9 @@
             "<p>Please indicate the extent to which you agree with each statement.</p><br /><br/> ",
         require_movement: questions_required,
         slider_width: null,
+        min: 0,
+        max: 1,
+        slider_start: 0.5,
         data: {
             screen: 'questionnaire',
         }
@@ -358,6 +368,7 @@
         var items = jsPsych.data.get().filter({ screen: "questionnaire" }).values()[0]
         items["response"] = JSON.parse(items["response"])
         items["question_order"] = JSON.parse(items["question_order"])
+        items["duration"] = jsPsych.data.get().filter({ screen: "resting" }).values()[0]["duration"]
         var out = Object.assign({}, info, items)
         return out
     }
