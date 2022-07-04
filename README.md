@@ -27,13 +27,20 @@ Some type of scale to assess subjective experiences and inner thoughts during re
 - [Amsterdam Resting State Questionnaire 2.0](https://doi.org/10.1016/j.heliyon.2019.e02533) (ARSQ)
   - 54 item scale
 
-### Microstates
+## Neuro-behavioural Associations
+
+### EEG Microstates
 
 [Pipinis et al. (2016)](https://link.springer.com/article/10.1007/s10548-016-0522-2) showed associations between **microstate B** and **Comfort**, and **microstate C** and **Somatic Awareness (SA)**.
 
 ![](figures/Pipinis2016.png)
 
+### EEG Complexity
 
+TODO.
 
+### Heart Rate Variability (HRV)
+
+TODO.
 
 
