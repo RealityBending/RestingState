@@ -8,7 +8,12 @@ This repository contains a resting state (RS) paradigm task implemented in [jsPs
 
 **No installation required!** You can run it directly using the following [**link**](https://realitybending.github.io/RestingState/).
 
-If you want to run it locally or edit it, you can download the whole repository and open `index.html` in your browser. You can also edit this file, as well as [*parameters.js*](parameters.js) file to customize things like the duration, etc.
+If you want to run it locally or edit it:
+- [**download**](https://github.com/RealityBending/RestingState/archive/refs/heads/main.zip) the whole repository
+- Unzip it
+- Open `index.html` in a web browser (e.g., in Chrome).
+
+You can also edit the html file (e.g., using notepad), as well as the [**parameters.js**](parameters.js) file to easily customize things like the duration, etc.
 
 
 
