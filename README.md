@@ -2,11 +2,11 @@
 
 This repository contains a resting state (RS) paradigm task implemented in [jsPsych]() that can be run from the browser:
 
-- [https://realitybending.github.io/restingstate/](https://realitybending.github.io/RestingState/)
+- [https://realitybending.github.io/RestingState/](https://realitybending.github.io/RestingState/)
 
 ## Installation
 
-**No installation required!** You can either download the whole repository and open `experiment/restingstate.html` in your browser or run it directly in the internet using the following [**link**](https://realitybending.github.io/restingstate/).
+**No installation required!** You can either download the whole repository and open `experiment/restingstate.html` in your browser or run it directly in the internet using the following [**link**](https://realitybending.github.io/RestingState/).
 
 ## Features
 
