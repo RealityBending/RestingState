@@ -169,55 +169,54 @@
         type: jsPsychAudioButtonResponse,
         on_start: set_background2,
         stimulus: 'alarm.mp3',
-        prompt: '<p> </p><p>You can open your eyes and continue with the rest of the task.</p)',
+        prompt: '<p> </p><p>The 8 minutes of rest are over.</p<p> You can open your eyes and continue with the rest of the task.</p>',
         choices: ['Continue']
     };
 
     // Debriefing Questions - NYC-Q
     // var scale = ["<p>1</p><p>Not at All</p>", "2", "3", "4", "5", "6", "7", "8", "<p>9</p><p>Very Much</p>"];
 
-    var scale = ['Not at All', 'Very Much']
+    var scale = ['Completely Disagree', 'Completely Agree'];
 
-    var NYCQ = {
+    var ARSQ = {
         type: jsPsychMultipleSlider,  // this is a custom plugin in utils
         on_start: set_background2,
         questions: [
-            { prompt: "I thought about things I am currently worried about", ticks: scale, required: true },
-            { prompt: "I thought about people I have just recently met", ticks: scale, required: true },
-            { prompt: "I thought of people I have known for a long time (friends)", ticks: scale, required: true },
-            { prompt: "I thought about members of my family", ticks: scale, required: true },
-            { prompt: "I thought about an event that took place earlier today", ticks: scale, required: true },
-            { prompt: "I thought about an interaction I may possibly have in the future", ticks: scale, required: true },
-            { prompt: "I thought about an interaction with somebody that took place in the past", ticks: scale, required: true },
-            { prompt: "I thought about something that happened at a place very close to me", ticks: scale, required: true },
-            { prompt: "I thought about something that made me feel guilty", ticks: scale, required: true },
-            { prompt: "I thought about an event that may take place later today", ticks: scale, required: true },
-            { prompt: "I thought about something that happened in the recent past (last couple of days but not today)", ticks: scale, required: true },
-            { prompt: "I thought about something that happened a long time ago in the past", ticks: scale, required: true },
-            { prompt: "I thought about something that made me angry", ticks: scale, required: true },
-            { prompt: "I thought about something that made me happy", ticks: scale, required: true },
-            { prompt: "I thought about something that made me cheerful", ticks: scale, required: true },
-            { prompt: "I thought about something that made me calm", ticks: scale, required: true },
-            { prompt: "I thought about something that made me sad", ticks: scale, required: true },
-            { prompt: "I thought about something that is important to me", ticks: scale, required: true },
-            { prompt: "I thought about something that could still happen today", ticks: scale, required: true },
-            { prompt: "I thought about something that may take place in the distant future", ticks: scale, required: true },
-            { prompt: "I thought about something that could take place in the near future (days or weeks but not today)", ticks: scale, required: true },
-            { prompt: "I thought about personal worries", ticks: scale, required: true },
-            { prompt: "During the EEG my thoughts were in the form of images", ticks: scale, required: true },
-            { prompt: "During the EEG my thoughts were in the form of words", ticks: scale, required: true },
-            { prompt: "During the EEG my thoughts were like an inner monologue or audiobook", ticks: scale, required: true },
-            { prompt: "During the EEG my thoughts were like a television program or film", ticks: scale, required: true },
-            { prompt: "During the EEG my thoughts had a strong and consistent personal narrative", ticks: scale, required: true },
-            { prompt: "During the EEG my thoughts had a clear sense of purpose", ticks: scale, required: true },
-            { prompt: "During the EEG my thoughts were vague and non-specific", ticks: scale, required: true },
-            { prompt: "During the EEG my thoughts were fragmented and disjointed", ticks: scale, required: true },
+            { prompt: "I had busy thoughts", ticks: scale, required: true },
+            { prompt: "I had rapidly switching thoughts", ticks: scale, required: true },
+            { prompt: "I had difficulty holding onto my thoughts", ticks: scale, required: true },
+            { prompt: "I thought about others", ticks: scale, required: true },
+            { prompt: "I thought about people I like", ticks: scale, required: true },
+            { prompt: "I placed myself in other people's shoes", ticks: scale, required: true },
+            { prompt: "I thought about my feelings", ticks: scale, required: true },
+            { prompt: "I thought about my behaviour", ticks: scale, required: true },
+            { prompt: "I thought about myself", ticks: scale, required: true },
+            { prompt: "I thought about things I need to do", ticks: scale, required: true },
+            { prompt: "I thought about solving problems", ticks: scale, required: true },
+            { prompt: "I thought about the future", ticks: scale, required: true },
+            { prompt: "I felt sleepy", ticks: scale, required: true },
+            { prompt: "I felt tired", ticks: scale, required: true },
+            { prompt: "I had difficulty staying awake", ticks: scale, required: true },
+            { prompt: "I felt comfortable", ticks: scale, required: true },
+            { prompt: "I felt happy", ticks: scale, required: true },
+            { prompt: "I felt relaxed", ticks: scale, required: true },
+            { prompt: "I was conscious of my body", ticks: scale, required: true },
+            { prompt: "I thought about my heartbeat", ticks: scale, required: true },
+            { prompt: "I thought about my breathing", ticks: scale, required: true },
+            { prompt: "I felt ill", ticks: scale, required: true },
+            { prompt: "I thought about my health", ticks: scale, required: true },
+            { prompt: "I felt pain", ticks: scale, required: true },
+            { prompt: "I thought in images", ticks: scale, required: true },
+            { prompt: "I pictured events", ticks: scale, required: true },
+            { prompt: "I pictured places", ticks: scale, required: true },
+            { prompt: "I thought in words", ticks: scale, required: true },
+            { prompt: "I had silent conversations", ticks: scale, required: true },
+            { prompt: "I imagined talking to myself", ticks: scale, required: true },
         ],
-        randomize_question_order: false,
-        preamble: "We are interested in the thoughts you had during the EEG. Please indicate the extent to which each of these statements correctly characterizes your thinking. Please indicate, using the scale provided, how much the statement characterizes your thoughts during the EEG. <br /><br/> ",
-        randomize_question_order: false,
+        randomize_question_order: true,
+        preamble: "We are interested in the potential feelings and thoughts you may have experienced during the resting period. Please indicate the extent to which you agree with each statement.”. <br /><br/> ",
         require_movement: true,
-        slider_width: 1150,
+        slider_width: 1000,
     };
 
     // end block
@@ -302,7 +301,7 @@
     // };
 
     /* ----------------- Set the timeline ----------------- */
-    var timeline = [preload_audio, participant_info, fullscreen_on, instructions, trigger_sensor, rest, trigger_sensor, audio_trigger, fullscreen_off, NYCQ, end_screen];
+    var timeline = [preload_audio, participant_info, fullscreen_on, instructions, trigger_sensor, rest, trigger_sensor, audio_trigger, fullscreen_off, ARSQ, end_screen];
 
     jsPsych.run(timeline);
 
