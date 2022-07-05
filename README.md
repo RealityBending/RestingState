@@ -32,6 +32,10 @@ You can also edit the html file (e.g., using notepad), as well as the [**paramet
   - Using the [ARSQ](https://www.frontiersin.org/articles/10.3389/fpsyg.2014.00271/full)
 - [x] Cutomizable trigger for photosensor (to mark events in EEG / bio devices)
 - [x] An [R script](preprocessing.R) to preprocess and tidy-up the data
+  - Download the function directly from the internet:
+  - `devtools::source_url("https://raw.githubusercontent.com/RealityBending/RestingState/main/preprocessing.R")`
+  - Run it on the JSON file saved at the end of the task
+  - `preprocess_RS(S01_RestingState.json)`
 
 ## Scientific Background
 
