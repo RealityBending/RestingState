@@ -1,3 +1,9 @@
+// Parameters Customization
+// ==========================
+// To change the parameters, make sure you are editing the file locally
+// (you need to download the repository)
+// Change what you want, save and run your local index.html
+
 // experiment version
 version = "1.0"
 // Resting state duration in min

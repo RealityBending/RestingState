@@ -3,7 +3,7 @@
 
 # Resting State Paradigm
 
-[![](https://img.shields.io/badge/browser-run-orange)](https://realitybending.github.io/RestingState/)
+[![DOI](https://zenodo.org/badge/509319743.svg)](https://zenodo.org/badge/latestdoi/509319743) [![](https://img.shields.io/badge/browser-run-orange)](https://realitybending.github.io/RestingState/)
 
 
 This repository contains an open-source resting state (RS) paradigm task implemented in [jsPsych](https://www.jspsych.org/7.2/) that can be run from the browser:
@@ -25,20 +25,23 @@ You can also edit the html file (e.g., using notepad), as well as the [**paramet
 
 ## Features
 
-- [x] Eyes closed
+- [x] **Eyes-closed**
   - Minimize eyes-related artifacts for EEG
   - Increase participant's comfort
-- [x] 8 min
+- [x] **8 min**
   - Long-enough to reliably capture multimodal features
   - Can pass it by pressing *"s"*
-- [x] Standardized post resting-state assessment
+  - [Customizable](parameters.js) duration
+- [x] **Standardized post resting-state assessment**
   - Using the [ARSQ](https://www.frontiersin.org/articles/10.3389/fpsyg.2014.00271/full)
-- [x] Cutomizable trigger for photosensor (to mark events in EEG / bio devices)
-- [x] An [R script](preprocessing.R) to preprocess and tidy-up the data
-  - Download the function directly from the internet:
+  - 21 questions, 7 dimensions (+ 2 manipulation check items)
+- [x] **Customizable trigger for photosensor** (to mark events in EEG / bio devices)
+- [x] An [R function](preprocessing.R) to **preprocess** and tidy-up the data
+  - Load the function directly from the internet:
   - `devtools::source_url("https://raw.githubusercontent.com/RealityBending/RestingState/main/preprocessing.R")`
   - Run it on the JSON file saved at the end of the task
   - `preprocess_RS(S01_RestingState.json)`
+  - Enjoy a clean data
 
 ## Scientific Background
 
