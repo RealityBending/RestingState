@@ -63,7 +63,7 @@
     var participant_info = {
         type: jsPsychSurveyText,
         questions: [
-            {prompt: "Enter the participant's ID:", placeholder: "S00", name: "Participant_ID"},
+            { prompt: "Enter the participant's ID:", placeholder: "S00", name: "Participant_ID" },
         ],
         data: {
             screen: 'participant_info',
@@ -72,7 +72,7 @@
             time: new Date().toLocaleTimeString("fr-FR"),
         },
         on_finish: function () {
-            jsPsych.data.addProperties({"participant_id": jsPsych.data.get().last().values()[0]["response"]["Participant_ID"]})
+            jsPsych.data.addProperties({ "participant_id": jsPsych.data.get().last().values()[0]["response"]["Participant_ID"] })
         }
     };
 
@@ -163,163 +163,32 @@
     };
 
     // Debriefing Questions
-    var scale = ['Completely Disagree', 'Completely Agree'];
+    var scale = ['Completely Disagree', 'Completely Agree']
+    var questions = []
+    for (const [index, element] of items.entries()) {
+        questions.push({
+            prompt: "<b>" + element + "</b>",
+            name: dimensions[index],
+            ticks: scale,
+            required: questions_required
+        })
+    }
+    questions = jsPsych.randomization.shuffle(questions)
+
+    // Add validation check items
+    for (const [index, element] of check_items.entries()) {
+        questions.push({
+            prompt: "<b>" + element + "</b>",
+            name: "Check_" + (index + 1),
+            ticks: scale,
+            required: questions_required
+        })
+    }
 
     var questionnaire = {
         type: jsPsychMultipleSlider,  // this is a custom plugin in utils
-        questions: [
-            {
-                prompt: "<b>I had busy thoughts</b>",
-                name: "DoM_1",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I had rapidly switching thoughts</b>",
-                name: "DoM_2",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I had difficulty holding onto my thoughts</b>",
-                name: "DoM_3",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I thought about others</b>",
-                name: "ToM_1",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I thought about people I like</b>",
-                name: "ToM_2",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I placed myself in other people's shoes</b>",
-                name: "ToM_3",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I thought about my feelings</b>",
-                name: "Self_1",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I thought about my behaviour</b>",
-                name: "Self_2",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I thought about myself</b>",
-                name: "Self_3",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I thought about things I need to do</b>",
-                name: "Plan_1",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I thought about solving problems</b>",
-                name: "Plan_2",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I thought about the future</b>",
-                name: "Plan_3",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I felt sleepy</b>",
-                name: "Sleep_1",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I felt tired</b>",
-                name: "Sleep_2",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I had difficulty staying awake</b>",
-                name: "Sleep_3",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I felt comfortable</b>",
-                name: "Comfort_1",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I felt happy</b>",
-                name: "Comfort_2",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I felt relaxed</b>",
-                name: "Comfort_3",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I was conscious of my body</b>",
-                name: "SomA_1",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I thought about my heartbeat</b>",
-                name: "SomA_2",
-                ticks: scale, required: questions_required
-            },
-            {
-                prompt: "<b>I thought about my breathing</b>",
-                name: "SomA_3",
-                ticks: scale, required: questions_required
-            },
-            // {
-            //     prompt: "<b>I felt ill</b>",
-            //     name: "Health_1",
-            //     ticks: scale, required: questions_required
-            // },
-            // {
-            //     prompt: "<b>I thought about my health</b>",
-            //     name: "Health_2",
-            //     ticks: scale, required: questions_required
-            // },
-            // {
-            //     prompt: "<b>I felt pain</b>",
-            //     name: "Health_3",
-            //     ticks: scale, required: questions_required
-            // },
-            // {
-            //     prompt: "<b>I thought in images</b>",
-            //     name: "Visual_1",
-            //     ticks: scale, required: questions_required
-            // },
-            // {
-            //     prompt: "<b>I pictured events</b>",
-            //     name: "Visual_2",
-            //     ticks: scale, required: questions_required
-            // },
-            // {
-            //     prompt: "<b>I pictured places</b>",
-            //     name: "Visual_3",
-            //     ticks: scale, required: questions_required
-            // },
-            // {
-            //     prompt: "<b>I thought in words</b>",
-            //     name: "Verbal_1",
-            //     ticks: scale, required: questions_required
-            // },
-            // {
-            //     prompt: "<b>I had silent conversations</b>",
-            //     name: "Verbal_2",
-            //     ticks: scale, required: questions_required
-            // },
-            // {
-            //     prompt: "<b>I imagined talking to myself</b>",
-            //     name: "Verbal_3",
-            //     ticks: scale, required: questions_required
-            // },
-        ],
-        randomize_question_order: true,
+        questions: questions,
+        randomize_question_order: false,
         preamble: "<p>We are interested in the potential feelings and thoughts you may have experienced during the resting period.</p>" +
             "<p>Please indicate the extent to which you agree with each statement.</p><br /><br/> ",
         require_movement: questions_required,
@@ -332,21 +201,27 @@
         }
     };
 
-    var validation_items = {
-        type: jsPsychMultipleSlider,
-        questions: [
-            {prompt: "<b>I had my eyes closed</b>", ticks: scale, required: questions_required, name: 'Q30'},
-            {prompt: "<b>I was able to rate the statements</b>", ticks: scale, required: questions_required, name: 'Q31'},
-        ],
-        randomize_question_order: false,
-        preamble: `
-    <p>Please indicate the extent to which you agree with each statement.</p><br /><br/> `,
-        require_movement: true,
-        slider_width: null,
-        data: {
-            screen: 'validation',
-        }
-    };
+    // var validation_items = {
+    //     type: jsPsychMultipleSlider,
+    //     questions: [
+    //         {
+    //             prompt: "<b>I had my eyes closed</b>",
+    //             ticks: scale, required: questions_required, name: 'Check_1'
+    //         },
+    //         {
+    //             prompt: "<b>I was able to rate the statements</b>",
+    //             ticks: scale, required: questions_required, name: 'Check_2'
+    //         },
+    //     ],
+    //     randomize_question_order: false,
+    //     preamble: `
+    // <p>Please indicate the extent to which you agree with each statement.</p><br /><br/> `,
+    //     require_movement: true,
+    //     slider_width: null,
+    //     data: {
+    //         screen: 'validation',
+    //     }
+    // };
 
 
 
@@ -362,8 +237,6 @@
         audio_trigger,
         fullscreen_off,
         questionnaire,
-        validation_items,
-        // end_screen,
     ])
 
     // Create function to merge survey responses without overwriting
@@ -411,12 +284,12 @@
         //     console.log(index, element);
         //     out[index] = Object.assign({}, { "Answer": element, "Item": index }, info);
         // }
-        var info = jsPsych.data.get().filter({screen: "participant_info"}).values()[0]
-        var items = jsPsych.data.get().filter({screen: "questionnaire"}).values()[0]
+        var info = jsPsych.data.get().filter({ screen: "participant_info" }).values()[0]
+        var items = jsPsych.data.get().filter({ screen: "questionnaire" }).values()[0]
         items["response"] = JSON.parse(items["response"])
         items["question_order"] = JSON.parse(items["question_order"])
         items["duration"] = jsPsych.data.get().filter({ screen: "resting" }).values()[0]["duration"]
-        var validation_items = jsPsych.data.get().filter({screen: "validation"}).values()
+        var validation_items = jsPsych.data.get().filter({ screen: "validation" }).values()
         var _out = Object.assign({}, info, items)
         var out = merge(_out, validation_items)
         return out
