@@ -69,7 +69,7 @@ preprocess_RS <- function(file) {
 # Run ---------------------------------------------------------------------
 
 # The function can be loaded from the internet
-devtools::source_url(https://raw.githubusercontent.com/RealityBending/RestingState/main/preprocessing.R)
+devtools::source_url("https://raw.githubusercontent.com/RealityBending/RestingState/main/preprocessing.R")
 
 files <- list.files(path="data/", pattern = "\\.json$", full.names = TRUE)
 

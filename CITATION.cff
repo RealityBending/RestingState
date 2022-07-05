@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "You can cite this task as follows:"
+authors:
+- family-names: "Makowski"
+  given-names: "Dominique"
+  orcid: "https://orcid.org/0000-0001-5375-9967"
+- family-names: "Te"
+  given-names: "An Shu"
+  orcid: "https://orcid.org/0000-0001-8008-2824"
+title: "My Research Software"
+version: 2.0.4
+doi: 10.5281/zenodo.6796255
+date-released: 2022-07-05
+url: "https://github.com/RealityBending/RestingState"

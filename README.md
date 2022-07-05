@@ -14,7 +14,7 @@ This repository contains an open-source resting state (RS) paradigm task impleme
 
 **No installation required!** You can run it directly out-of-the box using the following [**link**](https://realitybending.github.io/RestingState/).
 
-If you want to run it locally or edit it:
+If you want to run it locally (e.g., to customize it):
 - [**download**](https://github.com/RealityBending/RestingState/archive/refs/heads/main.zip) the whole repository
 - Unzip it
 - Open `index.html` in a web browser (e.g., in Chrome).
@@ -42,6 +42,8 @@ You can also edit the html file (e.g., using notepad), as well as the [**paramet
   - Run it on the JSON file saved at the end of the task
   - `preprocess_RS(S01_RestingState.json)`
   - Enjoy a clean data
+
+## Citation
 
 ## Scientific Background
 
