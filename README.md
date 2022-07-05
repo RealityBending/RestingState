@@ -3,6 +3,9 @@
 
 # Resting State Paradigm
 
+[![](https://img.shields.io/badge/browser-run-orange)](https://realitybending.github.io/RestingState/)
+
+
 This repository contains an open-source resting state (RS) paradigm task implemented in [jsPsych](https://www.jspsych.org/7.2/) that can be run from the browser:
 
 - [https://realitybending.github.io/RestingState/](https://realitybending.github.io/RestingState/)
