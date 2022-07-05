@@ -1,12 +1,12 @@
 <img align="right" height="" src="figures/Logo.png">
 
 
-# Replicable Resting State Paradigm
+# Replicable Resting State Task (ReReST)
 
 [![DOI](https://zenodo.org/badge/509319743.svg)](https://zenodo.org/badge/latestdoi/509319743) [![](https://img.shields.io/badge/browser-run-orange)](https://realitybending.github.io/RestingState/)
 
 
-This repository contains an open-source resting state (RS) paradigm task implemented in [jsPsych](https://www.jspsych.org/7.2/) that can be run from the browser:
+This repository contains an open-source resting state task implemented in [jsPsych](https://www.jspsych.org/7.2/) that can be run from the browser:
 
 - [https://realitybending.github.io/RestingState/](https://realitybending.github.io/RestingState/)
 
