@@ -45,7 +45,7 @@ You can also edit the html file (e.g., using notepad), as well as the [**paramet
 
 ## Citation
 
-* Makowski, D., & Te, A. S. (2022). *My Research Software* [Computer software]. https://doi.org/10.5281/zenodo.6796255
+* Makowski, D., & Te, A. S. (2022). *A Replicable Resting State Task* [Computer software]. https://doi.org/10.5281/zenodo.6796255
 
 
 ## Scientific Background
