@@ -1,7 +1,7 @@
 <img align="right" height="" src="figures/Logo.png">
 
 
-# Resting State Paradigm
+# Replicable Resting State Paradigm
 
 [![DOI](https://zenodo.org/badge/509319743.svg)](https://zenodo.org/badge/latestdoi/509319743) [![](https://img.shields.io/badge/browser-run-orange)](https://realitybending.github.io/RestingState/)
 
@@ -44,6 +44,9 @@ You can also edit the html file (e.g., using notepad), as well as the [**paramet
   - Enjoy a clean data
 
 ## Citation
+
+* Makowski, D., & Te, A. S. (2022). *My Research Software* [Computer software]. https://doi.org/10.5281/zenodo.6796255
+
 
 ## Scientific Background
 
