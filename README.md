@@ -3,7 +3,8 @@
 
 # Replicable Resting State Task (ReReST)
 
-[![DOI](https://zenodo.org/badge/509319743.svg)](https://zenodo.org/badge/latestdoi/509319743) [![](https://img.shields.io/badge/browser-run-orange)](https://realitybending.github.io/RestingState/)
+[![DOI](https://zenodo.org/badge/509319743.svg)](https://zenodo.org/badge/latestdoi/509319743) [![](https://img.shields.io/badge/browser-run-brightgreen)](https://realitybending.github.io/RestingState/) [![](https://img.shields.io/badge/download-zip-orange)](https://github.com/RealityBending/RestingState/archive/refs/heads/main.zip)
+
 
 
 This repository contains an open-source resting state task implemented in [jsPsych](https://www.jspsych.org/7.2/) that can be run from the browser:
