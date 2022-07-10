@@ -32,7 +32,8 @@ preprocess_RS <- function(file) {
                  "I thought in words",
                  "I had silent conversations",
                  "I imagined talking to myself",
-                 "I had my eyes closed", "I was able to rate the statements above")
+                 "I had my eyes closed",
+                 "I was able to rate the statements above")
 
   names(items) <- c(    "DoM_1", "DoM_2", "DoM_3",
                         "ToM_1", "ToM_2", "ToM_3",
