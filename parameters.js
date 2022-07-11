@@ -48,16 +48,33 @@ var items = [
     // "I imagined talking to myself",
 ]
 var dimensions = [
-    "DoM_1", "DoM_2", "DoM_3",
-    "ToM_1", "ToM_2", "ToM_3",
-    "Self_1", "Self_2", "Self_3",
-    "Plan_1", "Plan_2", "Plan_3",
-    "Sleep_1", "Sleep_2", "Sleep_3",
-    "Comfort_1", "Comfort_2", "Comfort_3",
-    "SomA_1", "SomA_2", "SomA_3",
+    "DoM_1",
+    "DoM_2",
+    "DoM_3",
+    "ToM_1",
+    "ToM_2",
+    "ToM_3",
+    "Self_1",
+    "Self_2",
+    "Self_3",
+    "Plan_1",
+    "Plan_2",
+    "Plan_3",
+    "Sleep_1",
+    "Sleep_2",
+    "Sleep_3",
+    "Comfort_1",
+    "Comfort_2",
+    "Comfort_3",
+    "SomA_1",
+    "SomA_2",
+    "SomA_3",
     // "Health_1", "Health_2", "Health_3",
     // "Visual_1", "Visual_2", "Visual_3",
     // "Verbal_1", "Verbal_2", "Verbal_3",
 ]
 
-var check_items = ["I had my eyes closed", "I was able to rate the statements above"]
+var check_items = [
+    "I had my eyes closed",
+    "I was able to rate the statements above",
+]
