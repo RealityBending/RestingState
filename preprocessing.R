@@ -1,5 +1,5 @@
 # Preprocessing function
-preprocess_RS <- function(file) {
+preprocess_RestingState <- function(file) {
   if (!require("jsonlite", character.only = TRUE)) install.packages("jsonlite")
 
   items <- c(    "I had busy thoughts",
@@ -48,6 +48,12 @@ preprocess_RS <- function(file) {
 
   json <- jsonlite::fromJSON(file, simplifyVector=FALSE)[[1]]
   data <- data.frame(Participant = json$participant_id,
+                     Screen_Resolution = paste0(json$screen_width, "x", json$screen_height),
+                     Screen_Refresh = json$vsync_rate,
+                     Browser = json$browser,
+                     Browser_Version = json$browser_version,
+                     Device = ifelse(json$mobile == TRUE, "Mobile", "Desktop"),
+                     Device_OS = json$os,
                      Duration = json$duration,
                      Version = json$version,
                      Date = json$date,
@@ -76,7 +82,7 @@ files <- list.files(path="data/", pattern = "\\.json$", full.names = TRUE)
 
 # Loop over each file and compute function
 df <- data.frame()
-for(file in files) df <- rbind(df, preprocess_RS(file))
+for(file in files) df <- rbind(df, preprocess_RestingState(file))
 
 # Clean dataframe
 df

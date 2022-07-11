@@ -74,8 +74,6 @@
         })
 
         // Retrieve and save browser info
-        var screen_width = 0
-        var screen_height = 0
         var browser_check = {
             type: jsPsychBrowserCheck,
             data: {
@@ -86,8 +84,10 @@
                     .get()
                     .filter({ screen: "browser_info" })
                     .values()[0]
-                screen_height = data["height"]
-                screen_width = data["width"]
+                jsPsych.data.addProperties({
+                    ["screen_height"]: data["height"],
+                    ["screen_width"]: data["width"],
+                })
                 for (var key in data) {
                     if (
                         [
