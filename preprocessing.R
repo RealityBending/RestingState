@@ -75,14 +75,16 @@ preprocess_RestingState <- function(file) {
 
 # Run ---------------------------------------------------------------------
 
-# The function can be loaded from the internet
-devtools::source_url("https://raw.githubusercontent.com/RealityBending/RestingState/main/preprocessing.R")
+# Uncomment the lines below to run it.
 
-files <- list.files(path="data/", pattern = "\\.json$", full.names = TRUE)
-
-# Loop over each file and compute function
-df <- data.frame()
-for(file in files) df <- rbind(df, preprocess_RestingState(file))
-
-# Clean dataframe
-df
+# # The function can be loaded from the internet
+# devtools::source_url("https://raw.githubusercontent.com/RealityBending/RestingState/main/preprocessing.R")
+#
+# files <- list.files(path="data/", pattern = "\\.json$", full.names = TRUE)
+#
+# # Loop over each file and compute function
+# df <- data.frame()
+# for(file in files) df <- rbind(df, preprocess_RestingState(file))
+#
+# # Clean dataframe
+# df
