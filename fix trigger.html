@@ -1,0 +1,301 @@
+<!-- Load jsPsych-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--create title shown in tab; not the same as header on webpage-->
+    <title>RestingState</title>
+
+    <script src="https://unpkg.com/jspsych@7.2.3"></script>
+
+    <!--Load all necessary plugins using cdn hosted library-->
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-audio-button-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-canvas-button-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.1"></script>
+    <script src="utils/multiple-slider.js"></script>
+    <script src="parameters.js"></script>
+
+    <!-- Applying default style here -->
+    <link href="https://unpkg.com/jspsych@7.2.3/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* set canvas to be full screen */
+        .trigger {
+            margin: 0%;
+            max-width: 100%;
+        }
+
+        /*Hide scrollbar while keeping it functional */
+        body {
+            overflow-y: scroll;
+        }
+
+        Body::-webkit-scrollbar {
+            display: none
+        }
+    </style>
+
+</head>
+
+<body>
+
+</body>
+
+<script>
+    /* ----------------- Initialize experiment ----------------- */
+    var jsPsych = initJsPsych({
+        // override_safe_mode: true,
+        on_finish: function () {
+            if (raw_data == false) {
+                jsPsych.data.allData.trials = [clean_data()]
+            }
+            jsPsych.data.displayData('json')
+            jsPsych.data.get().localSave('json', `${jsPsych.data.get().values()[0]["participant_id"]}_RestingState.json`);
+        }
+    });
+
+    /* ----------------- Session Info ----------------- */
+
+    // Participant information
+    var participant_info = {
+        type: jsPsychSurveyText,
+        questions: [
+            { prompt: "Enter the participant's ID:", placeholder: "S00", name: "Participant_ID" },
+        ],
+        data: {
+            screen: 'participant_info',
+            version: version,
+            date: new Date().toLocaleDateString("fr-FR"),
+            time: new Date().toLocaleTimeString("fr-FR"),
+        },
+        on_finish: function () {
+            jsPsych.data.addProperties({ "participant_id": jsPsych.data.get().last().values()[0]["response"]["Participant_ID"] })
+        }
+    };
+
+
+
+    /* ----------------- Preloading ----------------- */
+    // Preload audio variables
+    var beep = ['utils/beep.mp3'];
+    var preload_audio = {
+        type: jsPsychPreload,
+        auto_preload: true,
+        audio: beep
+    };
+
+
+    /* ----------------- Experiment Variables ----------------- */
+
+    // Enter/exit fullscreen mode
+    var fullscreen_on = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: true,
+    };
+    var fullscreen_off = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: false,
+    };
+
+    // Instructions
+    var instructions = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: "<p><b>Instructions</b></p>" +
+            // Don't give exact time so that participants don't count
+            "<p>A rest period of about 10 minutes is about to start.</p>" +
+            "<p>Simply <b>relax</b> and remain seated quietly with your eyes closed. Please try <b>not to fall asleep</b>.</p> " +
+            "<p>Once the resting period is over, you will hear a beep. You can then open your eyes and proceed.</p>" +
+            "<p>Once you are ready, close your eyes. The rest period will shortly begin.</p>",
+        choices: ['Continue'],
+    };
+
+
+    // set trial to trigger onset of resting state trial
+    var trigger_marker = {
+        type: jsPsychCanvasButtonResponse,
+        on_start: function () {
+            document.body.style.backgroundColor = '#808080'
+            document.body.style.cursor = "none"
+        },
+        stimulus: function (canvas, color = "black") {
+            var ctx = canvas.getContext("2d");
+            ctx.beginPath();
+            ctx.fillRect(...marker_position);
+            //ctx.arc(20, 20, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = color;
+            ctx.fill();
+        },
+        canvas_size: [10000, 10000],
+        choices: [],
+        trial_duration: 1000,
+        css_classes: ['trigger']
+    };
+
+
+    // Create blank grey screen for resting state
+    var rest = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: "<p style='font-size:50px;'> +</p>",
+        choices: ["s"],
+        trial_duration: duration * 60 * 1000,
+        css_classes: ['fixation'],
+        data: {
+            screen: 'resting',
+            time_start: function () { return performance.now() }
+        },
+        on_finish: function (data) {
+            data.duration = (performance.now() - data.time_start) / 1000 / 60
+        }
+    };
+
+    var audio_trigger = {
+        type: jsPsychAudioButtonResponse,
+        on_start: function () {
+            document.body.style.backgroundColor = '#FFFFFF'
+            document.body.style.cursor = "auto"
+        },
+        stimulus: beep,
+        prompt: "<p>It's over! Please press continue.</p>",
+        choices: ['Continue']
+    };
+
+    // Debriefing Questions
+    var scale = ['Completely Disagree', 'Completely Agree']
+    var questions = []
+    for (const [index, element] of items.entries()) {
+        questions.push({
+            prompt: "<b>" + element + "</b>",
+            name: dimensions[index],
+            ticks: scale,
+            required: questions_required
+        })
+    }
+    questions = jsPsych.randomization.shuffle(questions)
+
+    // Add validation check items
+    for (const [index, element] of check_items.entries()) {
+        questions.push({
+            prompt: "<b>" + element + "</b>",
+            name: "Check_" + (index + 1),
+            ticks: scale,
+            required: questions_required
+        })
+    }
+
+    var questionnaire = {
+        type: jsPsychMultipleSlider,  // this is a custom plugin in utils
+        questions: questions,
+        randomize_question_order: false,
+        preamble: "<p>We are interested in the potential feelings and thoughts you may have experienced during the resting period.</p>" +
+            "<p>Please indicate the extent to which you agree with each statement.</p><br /><br/> ",
+        require_movement: questions_required,
+        slider_width: null,
+        min: 0,
+        max: 1,
+        slider_start: 0.5,
+        data: {
+            screen: 'questionnaire',
+        }
+    };
+
+    // var validation_items = {
+    //     type: jsPsychMultipleSlider,
+    //     questions: [
+    //         {
+    //             prompt: "<b>I had my eyes closed</b>",
+    //             ticks: scale, required: questions_required, name: 'Check_1'
+    //         },
+    //         {
+    //             prompt: "<b>I was able to rate the statements</b>",
+    //             ticks: scale, required: questions_required, name: 'Check_2'
+    //         },
+    //     ],
+    //     randomize_question_order: false,
+    //     preamble: `
+    // <p>Please indicate the extent to which you agree with each statement.</p><br /><br/> `,
+    //     require_movement: true,
+    //     slider_width: null,
+    //     data: {
+    //         screen: 'validation',
+    //     }
+    // };
+
+
+
+    /* ----------------- Run the timeline ----------------- */
+    jsPsych.run([
+        participant_info,
+        preload_audio,
+        fullscreen_on,
+        instructions,
+        trigger_marker,
+        rest,
+        trigger_marker,
+        audio_trigger,
+        fullscreen_off,
+        questionnaire,
+    ])
+
+    // Create function to merge survey responses without overwriting
+    const merge = (...arguments) => {
+
+        // create a new object
+        let target = {};
+
+        // deep merge the object into the target object
+        const merger = (obj) => {
+            for (let prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    if (Object.prototype.toString.call(obj[prop]) === '[object Object]') {
+                        // if the property is a nested object
+                        target[prop] = merge(target[prop], obj[prop]);
+                    } else {
+                        // for regular property
+                        target[prop] = obj[prop];
+                    }
+                }
+            }
+        };
+
+        // iterate through all objects and
+        // deep merge them with target
+        for (let i = 0; i < arguments.length; i++) {
+            merger(arguments[i]);
+        }
+
+        return target;
+    };
+
+    function clean_data() {
+        // var dat = jsPsych.data.get().filter({ screen: "participant_info" }).values()[0]
+        // var info = {}
+        // for (const i of ["date", "time", "version", "rt"]) {
+        //     info[i] = dat[i]
+        // }
+        // info['participant_id'] = dat["response"]["Participant_ID"]
+
+        // dat = jsPsych.data.get().filter({ screen: "questionnaire" }).values()[0]
+        // values = JSON.parse(dat["response"])
+        // var out = {}
+        // for (const [index, element] of Object.entries(values)) {
+        //     console.log(index, element);
+        //     out[index] = Object.assign({}, { "Answer": element, "Item": index }, info);
+        // }
+        var info = jsPsych.data.get().filter({ screen: "participant_info" }).values()[0]
+        var items = jsPsych.data.get().filter({ screen: "questionnaire" }).values()[0]
+        items["response"] = JSON.parse(items["response"])
+        items["question_order"] = JSON.parse(items["question_order"])
+        items["duration"] = jsPsych.data.get().filter({ screen: "resting" }).values()[0]["duration"]
+        var validation_items = jsPsych.data.get().filter({ screen: "validation" }).values()
+        var _out = Object.assign({}, info, items)
+        var out = merge(_out, validation_items)
+        return out
+    }
+
+
+</script>
+
+</html>

@@ -1,46 +1,67 @@
 <!-- Load jsPsych-->
 <!DOCTYPE html>
 <html>
-    <head>
-        <!--create title shown in tab; not the same as header on webpage-->
-        <title>RestingState</title>
 
-        <script src="https://unpkg.com/jspsych"></script>
+<head>
+    <!--create title shown in tab; not the same as header on webpage-->
+    <title>RestingState</title>
 
-        <!--Load all necessary plugins using cdn hosted library-->
-        <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-html-button-response"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-fullscreen"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-survey-text"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-audio-button-response"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-canvas-keyboard-response"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-preload"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-browser-check"></script>
-        <script src="utils/multiple-slider.js"></script>
-        <script src="parameters.js"></script>
+    <script src="utils/jspsych/jspsych.js"></script>
 
-        <!-- Applying default style here -->
-        <link
-            href="https://unpkg.com/jspsych@7.2.3/css/jspsych.css"
-            rel="stylesheet"
-            type="text/css"
-        />
-        <style>
-            /* set canvas to be full screen */
-            .jspsych-content {
-                max-width: 100%;
+    <!--Load all necessary plugins stored in utils-->
+    <script src="utils/jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="utils/jspsych/plugin-html-button-response.js"></script>
+    <script src="utils/jspsych/plugin-fullscreen.js"></script>
+    <script src="utils/jspsych/plugin-survey-text.js"></script>
+    <script src="utils/jspsych/plugin-audio-button-response.js"></script>
+    <script src="utils/jspsych/plugin-canvas-button-response.js"></script>
+    <script src="utils/jspsych/plugin-preload.js"></script>
+    <script src="utils/jspsych/multiple-slider.js"></script>
+    <script src="parameters.js"></script>
+
+    <!-- Applying default style here -->
+    <link href="utils/jspsych/jspsych.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* set canvas to be full screen */
+        .jspsych-content {
+            max-width: 100%;
+        }
+
+        /*Hide scrollbar while keeping it functional */
+        body {
+            overflow-y: scroll;
+        }
+
+        Body::-webkit-scrollbar {
+            display: none
+        }
+    </style>
+
+</head>
+
+<body>
+
+</body>
+
+<script>
+    /* ----------------- Initialize experiment ----------------- */
+    var jsPsych = initJsPsych({
+        // override_safe_mode: true,
+        on_finish: function () {
+            if (raw_data == false) {
+                jsPsych.data.allData.trials = [clean_data()]
             }
 
             /*Hide scrollbar while keeping it functional */
             body {
-                overflow-y: scroll;
+                overflow - y: scroll;
             }
 
-            Body::-webkit-scrollbar {
+            Body:: -webkit - scrollbar {
                 display: none;
             }
-        </style>
-    </head>
+        </style >
+    </head >
 
     <body></body>
 
@@ -290,5 +311,6 @@
             var out = Object.assign({}, info, items)
             return out
         }
-    </script>
+</script>
+
 </html>
