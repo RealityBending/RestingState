@@ -165,7 +165,7 @@
 
     function create_marker(marker_position, color = "black") {
         const html = `<div id="marker" style="position: absolute; background-color: ${color};\
-        left:${marker_position[0]}; top:${marker_position[1]}; \
+        left:${marker_position[0]}px; top:${marker_position[1]}px; \
         width:${marker_position[2]}px; height:${marker_position[3]}px";></div>`
         document.querySelector("body").insertAdjacentHTML("beforeend", html)
     }
