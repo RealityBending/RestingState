@@ -12,6 +12,8 @@ duration = 8
 marker_position = [0, 0, 100, 100]
 // Are all the questions from the debriefing required?
 questions_required = false
+// Record webcam?
+record_webcam = false
 // Display raw data
 raw_data = false
 // Debriefing questionnaire

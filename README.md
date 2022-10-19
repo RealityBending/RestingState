@@ -43,6 +43,8 @@ You can also edit the html file (e.g., using notepad), as well as the [**paramet
   - Run it on the JSON file saved at the end of the task
   - `preprocess_RestingState(S01_RestingState.json)`
   - Enjoy clean data
+- [x] **Webcam recording**
+  - Activate webcam recording by setting `record_webcam = true` in [`parameters.js`](parameters.js)
 - [x] **Community-driven state of the art**
   - If you have any remarks, opinions or thoughts about possible improvements, please **contribute** by opening an [issue](https://github.com/RealityBending/RestingState/issues) and letting us know what you think!
 
