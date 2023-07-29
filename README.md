@@ -20,7 +20,7 @@ If you want to run it locally (e.g., to customize it):
 - Unzip it
 - Open `index.html` in a web browser (e.g., in Chrome).
 
-You can also edit the html file (e.g., using notepad), as well as the [**parameters.js**](parameters.js) file to easily customize things like the duration, etc.
+You can also edit the html file (e.g., using notepad), as well as the [**RestingState.js**](RestingState.js) file to easily customize things like the duration, etc.
 
 
 
@@ -32,7 +32,7 @@ You can also edit the html file (e.g., using notepad), as well as the [**paramet
 - [x] **8 min**
   - Long-enough to reliably capture multimodal features
   - Can skip for testing purposes it by pressing `"s"`
-  - [Customizable](parameters.js) duration
+  - [Customizable](RestingState.js) duration
 - [x] **Standardized post resting-state assessment**
   - Using the [ARSQ](https://www.frontiersin.org/articles/10.3389/fpsyg.2014.00271/full) (Diaz et al., 2014)
   - 21 questions, 7 dimensions (+ 2 manipulation check items)
@@ -44,7 +44,7 @@ You can also edit the html file (e.g., using notepad), as well as the [**paramet
   - `preprocess_RestingState(S01_RestingState.json)`
   - Enjoy clean data
 - [x] **Webcam recording**
-  - Activate webcam recording by setting `record_webcam = true` in [`parameters.js`](parameters.js)
+  - Activate webcam recording by setting `record_webcam = true` in [`RestingState.js`](RestingState.js)
 - [x] **Community-driven state of the art**
   - If you have any remarks, opinions or thoughts about possible improvements, please **contribute** by opening an [issue](https://github.com/RealityBending/RestingState/issues) and letting us know what you think!
 

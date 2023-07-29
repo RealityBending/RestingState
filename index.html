@@ -3,7 +3,7 @@
 <html>
     <head>
         <!--create title shown in tab; not the same as header on webpage-->
-        <title>RestingState</title>
+        <title>Resting State</title>
 
         <script src="utils/jspsych/jspsych.js"></script>
 
@@ -19,9 +19,10 @@
         <script src="utils/jspsych/multiple-slider.js"></script>
         <script src="utils/jspsych/extension-record-video.js"></script>
         <script src="utils/jspsych/plugin-initialize-camera.js"></script>
-        <script src="parameters.js"></script>
 
-        <!-- Applying default style here -->
+        <!-- Load parameters here (always below the loading of the JsPsych) -->
+        <script src="RestingState.js"></script>
+
         <link
             href="utils/jspsych/jspsych.css"
             rel="stylesheet"
@@ -50,19 +51,14 @@
         /* ----------------- Initialize experiment ----------------- */
         var timeline = []
 
-        var extensions = []
-        if (record_webcam == true) {
-            extensions.push({ type: jsPsychExtensionRecordVideo })
-        }
-
         var jsPsych = initJsPsych({
-            extensions: extensions,
+            extensions: extensions, // This variable comes from RestingState.js
             // override_safe_mode: true,
             on_finish: function () {
                 if (raw_data == false) {
                     jsPsych.data.allData.trials = [clean_data()]
                 }
-               // jsPsych.data.displayData("json")
+                // jsPsych.data.displayData("json")
                 jsPsych.data
                     .get()
                     .localSave(
@@ -81,7 +77,7 @@
             delay_after: 0,
         })
 
-        // Webcam initialization (can be activated in parameters.js)
+        // Webcam initialization (can be activated in RestingStates.js)
         if (record_webcam == true) {
             timeline.push({
                 type: jsPsychInitializeCamera,
@@ -161,129 +157,24 @@
         })
 
         /* ----------------- Experiment Variables ----------------- */
-
+        // Task ============================================================
         // Instructions
-        var instructions = {
-            type: jsPsychHtmlButtonResponse,
-            stimulus:
-                "<p><b>Instructions</b></p>" +
-                // Don't give exact time so that participants don't count
-                "<p>A rest period of about 10 minutes is about to start.</p>" +
-                "<p>Simply <b>relax</b> and remain seated quietly with your eyes closed. Please try <b>not to fall asleep</b>.</p> " +
-                "<p>Once the resting period is over, you will hear a beep. You can then open your eyes and proceed.</p>" +
-                "<p>Once you are ready, close your eyes. The rest period will shortly begin.</p>",
-            choices: ["Continue"],
-        }
-        timeline.push(instructions)
-
-        function create_marker(marker_position, color = "black") {
-            const html = `<div id="marker" style="position: absolute; background-color: ${color};\
-        left:${marker_position[0]}px; top:${marker_position[1]}px; \
-        width:${marker_position[2]}px; height:${marker_position[3]}px";></div>`
-            document.querySelector("body").insertAdjacentHTML("beforeend", html)
-        }
-
+        timeline.push(RS_instructions)
         // Create blank grey screen just before rest period
-        var buffer = {
-            type: jsPsychHtmlKeyboardResponse,
-            on_start: function () {
-                document.body.style.backgroundColor = "#808080"
-                document.body.style.cursor = "none"
-                create_marker(marker_position, (color = "white"))
-            },
-            on_finish: function () {
-                document.querySelector("#marker").remove()
-            },
-            stimulus: "",
-            choices: ["s"],
-            trial_duration: 1000, // 1 second
-            css_classes: ["fixation"],
-        }
-        timeline.push(buffer)
-
+        timeline.push(RS_buffer)
         // Create blank grey screen for resting state
-        var rest = {
-            type: jsPsychHtmlKeyboardResponse,
-            extensions: extensions,
-            on_load: function () {
-                create_marker(marker_position)
-            },
-            stimulus: "<p style='font-size:150px;'>+</p>",
-            choices: ["s"],
-            trial_duration: duration * 60 * 1000,
-            css_classes: ["fixation"],
-            data: {
-                screen: "resting",
-                time_start: function () {
-                    return performance.now()
-                },
-            },
-            on_finish: function (data) {
-                document.querySelector("#marker").remove()
-                data.duration =
-                    (performance.now() - data.time_start) / 1000 / 60
-            },
-        }
-        timeline.push(rest)
-
-        var audio_trigger = {
-            type: jsPsychAudioButtonResponse,
-            on_start: function () {
-                document.body.style.backgroundColor = "#FFFFFF"
-                document.body.style.cursor = "auto"
-            },
-            stimulus: beep,
-            prompt: "<p>It's over! Please press continue.</p>",
-            choices: ["Continue"],
-        }
-        timeline.push(audio_trigger)
+        timeline.push(RS_task)
+        // Play beep
+        timeline.push(RS_beep)
+        // Add debriefing questionnaire
+        timeline.push(RS_questionnaire)
+        // =================================================================
 
         // Exit fullscreen mode
         timeline.push({
             type: jsPsychFullscreen,
             fullscreen_mode: false,
         })
-
-        // Debriefing Questions
-        var scale = ["Completely Disagree", "Completely Agree"]
-        var questions = []
-        for (const [index, element] of items.entries()) {
-            questions.push({
-                prompt: "<b>" + element + "</b>",
-                name: dimensions[index],
-                ticks: scale,
-                required: questions_required,
-            })
-        }
-        questions = jsPsych.randomization.shuffle(questions)
-
-        // Add validation check items
-        for (const [index, element] of check_items.entries()) {
-            questions.push({
-                prompt: "<b>" + element + "</b>",
-                name: "Check_" + (index + 1),
-                ticks: scale,
-                required: questions_required,
-            })
-        }
-
-        var questionnaire = {
-            type: jsPsychMultipleSlider, // this is a custom plugin in utils
-            questions: questions,
-            randomize_question_order: false,
-            preamble:
-                "<p>We are interested in the potential feelings and thoughts you may have experienced during the resting period.</p>" +
-                "<p>Please indicate the extent to which you agree with each statement.</p><br /><br/> ",
-            require_movement: questions_required,
-            slider_width: null,
-            min: 0,
-            max: 1,
-            slider_start: 0.5,
-            data: {
-                screen: "questionnaire",
-            },
-        }
-        timeline.push(questionnaire)
 
         /* ----------------- Run the timeline ----------------- */
         jsPsych.run(timeline)
