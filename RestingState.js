@@ -171,6 +171,10 @@ for (const [index, element] of items.entries()) {
         name: dimensions[index],
         ticks: scale,
         required: questions_required,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5,
     })
 }
 // Randomize order (comment this out to deactivate the randomization)
@@ -183,6 +187,10 @@ for (const [index, element] of check_items.entries()) {
         name: "Check_" + (index + 1),
         ticks: scale,
         required: questions_required,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        slider_start: 0.5,
     })
 }
 
@@ -197,9 +205,6 @@ var RS_questionnaire = {
         "<p>Please indicate the extent to which you agree with each statement.</p><br/> ",
     require_movement: questions_required,
     slider_width: null,
-    min: 0,
-    max: 1,
-    slider_start: 0.5,
     data: {
         screen: "questionnaire",
     },
